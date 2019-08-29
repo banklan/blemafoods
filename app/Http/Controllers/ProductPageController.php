@@ -60,4 +60,19 @@ class ProductPageController extends Controller
     {
         return view('product.cat_page');
     }
+
+    public function getToiletries()
+    {
+        return view('product.cat_page');
+    }
+
+    public function getHousehold()
+    {
+        return view('product.cat_page');
+    }
+
+    public function getGroceries()
+    {
+        return view('product.cat_page');
+    }
 }

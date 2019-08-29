@@ -48,6 +48,17 @@ Route::get('/images/products/cereal/{slug}', 'ProductPageController@getBreakfast
 Route::get('/eggs-dairy', 'ProductPageController@getEggsDairy')->name('eggs_dairy');
 Route::get('/eggs-dairy/{id}/{slug}', 'ProductPageController@getEggsDairy');
 Route::get('/images/products/eggs_dairy/{slug}', 'ProductPageController@getEggsDairy');
+Route::get('/toiletries', 'ProductPageController@getToiletries')->name('toiletries');
+Route::get('/toiletries/{id}/{slug}', 'ProductPageController@getToiletries');
+Route::get('/images/products/toiletries/{slug}', 'ProductPageController@getToiletries');
+Route::get('/household', 'ProductPageController@getHousehold')->name('household');
+Route::get('/household/{id}/{slug}', 'ProductPageController@getHousehold');
+Route::get('/images/products/household/{slug}', 'ProductPageController@getHousehold');
+Route::get('/groceries', 'ProductPageController@getGroceries')->name('groceries');
+Route::get('/groceries/{id}/{slug}', 'ProductPageController@getGroceries');
+Route::get('/images/products/groceries/{slug}', 'ProductPageController@getGroceries');
+
+
 
 //cart
 Route::get('/my_cart', 'ProductPageController@cart')->name('cart');

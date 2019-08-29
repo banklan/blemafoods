@@ -11,6 +11,9 @@ import CoffeeTea from './components/CoffeeTea';
 import Drinks from './components/Drinks';
 import BreakfastCereal from './components/BreakfastCereal';
 import EggsDairy from './components/EggsDairy';
+import Toiletries from './components/Toiletries';
+import Household from './components/Household';
+import Groceries from './components/Groceries';
 
 export default[
     {path: '/', name: 'Welcome', component: Welcome},
@@ -26,5 +29,7 @@ export default[
     {path: '/beverages-drinks-water', component: Drinks},
     {path: '/breakfast-cereal', component: BreakfastCereal},
     {path: '/eggs-dairy', component: EggsDairy},
-
+    {path: '/toiletries', component: Toiletries},
+    {path: '/household', component: Household},
+    {path: '/groceries', component: Groceries},
 ]

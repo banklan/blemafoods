@@ -31,6 +31,9 @@
                         <a class="dropdown-item" href="{{ route('drinks') }}">Beverages, Drinks & Water</a>
                         <a class="dropdown-item" href="{{ route('breakfast_cereal') }}">Breakfast & Cereal</a>
                         <a class="dropdown-item" href="{{ route('eggs_dairy') }}">Eggs & Dairy</a>
+                        <a class="dropdown-item" href="{{ route('toiletries') }}">Toiletries</a>
+                        <a class="dropdown-item" href="{{ route('household') }}">Household items</a>
+                        <a class="dropdown-item" href="{{ route('groceries') }}">Groceries & Staples</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
