@@ -14,6 +14,10 @@ import EggsDairy from './components/EggsDairy';
 import Toiletries from './components/Toiletries';
 import Household from './components/Household';
 import Groceries from './components/Groceries';
+import Kitchen from './components/Kitchen';
+import SpecialOrder from './components/SpecialOrder';
+import Services from './components/Services';
+import test from './components/test';
 
 export default[
     {path: '/', name: 'Welcome', component: Welcome},
@@ -32,4 +36,8 @@ export default[
     {path: '/toiletries', component: Toiletries},
     {path: '/household', component: Household},
     {path: '/groceries', component: Groceries},
+    {path: '/kitchen', component: Kitchen},
+    {path: '/special_order', component: SpecialOrder},
+    {path: '/special_services/services', component: Services},
+    {path: '/test', component: test}
 ]

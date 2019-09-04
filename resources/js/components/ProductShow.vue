@@ -33,7 +33,7 @@
                                                         <v-select dense small :items="units" :label="product.unit" v-model="picked.units"></v-select>
                                                     </v-col>
                                                     <v-col cols="6">
-                                                        <v-btn :disabled="loading" text light class="primary--text" @click.prevent="addToCart">Add To Cart</v-btn>
+                                                        <v-btn :disabled="loading" text light class="primary--text" @click.prevent="addToCart(product)">Add To Cart</v-btn>
                                                     </v-col>
                                                 </v-row>
                                             </v-container>
@@ -49,6 +49,20 @@
                         </v-card>
                     </v-flex>
                     <v-flex xs12 sm4 class="mt-4">
+                        <v-card v-if="product && product.service.length > 0" raised elevation="12" light ripple min-height="350" width="100%" class="mb-4">
+                            <v-card-title class="justify-center">
+                                <div class="subtitle">Extra Services on {{ product.name }}</div>
+                            </v-card-title>
+                             <v-card v-for="serv in product.service" :key="serv.id" class="serv_card" min-height="120" width="90%">
+                                 <v-card-title>
+                                     <div class="body-2 primary--text">{{ serv.name }}</div>
+                                 </v-card-title>
+                                 <v-card-text>
+                                     <span>{{ serv.description }}</span>
+                                     <v-btn v-if="added" :disabled="loading2" text dark class="primary--text float-right" @click.prevent="addService(serv)">Add Service</v-btn>
+                                </v-card-text>
+                             </v-card>
+                        </v-card>
                         <v-card raised elevation="12" light ripple hover min-height="380" width="100%">
                             <v-card-title class="justify-center">
                                 <div class="subtitle">Similar Products</div>
@@ -74,6 +88,10 @@
                         </v-card>
                     </v-flex>
                 </v-layout>
+                <v-snackbar v-model="serviceAddedSuccess" :timeout="4000" top color="#44a80f">
+                    You have added a service to your cart
+                    <v-btn color="white green--text" text @click.prevent="addSuccess = false">Close</v-btn>
+                </v-snackbar>
             </v-container>
         </v-content>
     </v-app>
@@ -89,16 +107,23 @@ export default {
             units: [1,2,3,4,5],
             picked: {
                 product: null,
-                units: 1,
+                units: null,
                 cost: null,
             },
-            service: {
+            addedService: {
+                id: null,
                 type: null,
-                price: null
+                price: null,
+                units: null,
+                cost: null
             },
             loading: false,
+            loading2: false,
             addSuccess: false,
-            similar: []
+            similar: [],
+            serviceAddedSuccess: false,
+            added: false,
+            unitsPicked: null
         }
     },
     watch: {
@@ -106,6 +131,7 @@ export default {
             handler(newVal){
                 let id = newVal
                 this.getProduct(id);
+                this.picked.units = null
             },
             immediate: true
         }
@@ -118,24 +144,32 @@ export default {
                 //get similar products
                 axios.get(`/get_similar_products/${res.data.category_id}/${this.$route.params.id}`).then((res) => {
                     this.similar = res.data
-                    console.log(res.data)
                 })
             })
         },
-        addToCart(){
+        addToCart(product){
             this.loading = true
-            this.picked.product = this.product
-            this.picked.cost = parseFloat(this.product.price) * this.picked.units
-            this.$store.commit('addItemsToCart', this.picked)
-            console.log(this.picked)
-
-            if(this.serviceStatus == true){
-                this.service.type = this.product.service.name
-                this.service.price = this.product.service.price
-                this.$store.commit('addServicesToCart', this.service)
+            this.added = true
+            if(this.picked.units == null){
+                this.picked.units = 1
             }
+            this.unitsPicked = this.picked.units
+            this.picked.product = product
+            this.picked.cost = parseFloat(product.price) * this.picked.units
             this.addSuccess = true
-            this.loading = false
+            this.$store.commit('addItemsToCart', this.picked)
+            this.picked = {}
+        },
+        addService(serv){
+            this.loading2 = true
+            this.addedService.id = serv.id
+            this.addedService.type = serv.name
+            this.addedService.price = serv.price
+            this.addedService.units = this.unitsPicked
+            this.addedService.cost = parseFloat(this.addedService.price) * this.unitsPicked
+            this.$store.commit('addServicesToCart', this.addedService)
+            this.serviceAddedSuccess = true
+            this.unitsPicked = null
         },
         goSimilar(){
             this.$router.push('/raw_foodstuff/' + this.product.id + '/' + this.product.slug)
@@ -178,7 +212,11 @@ export default {
             padding: 8px;
         }
     }
-    .simlar a:first-child{
+    .similar a:first-child{
         margin-top:-1rem;
+    }
+    .v-card .serv_card{
+        margin: 1rem auto !important;
+        line-height: 1.8 !important;
     }
 </style>

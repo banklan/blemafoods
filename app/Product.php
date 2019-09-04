@@ -12,15 +12,22 @@ class Product extends Model
 
     protected $appends = ['slug'];
 
+
     public function category()
     {
         return $this->belongsTo('App\Category');
     }
 
+    // public function service()
+    // {
+    //     return $this->hasOne('App\Service');
+    // }
+
     public function service()
     {
-        return $this->hasOne('App\Service');
+        return $this->hasMany('App\Service');
     }
+
 
     public function getSlugAttribute($value)
     {

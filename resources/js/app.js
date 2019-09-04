@@ -48,6 +48,8 @@ Vue.component('my-cart', require('./components/MyCart.vue').default);
 Vue.component('organic-products', require('./components/OrganicProducts.vue').default);
 Vue.component('product-card', require('./components/ProductCard.vue').default);
 Vue.component('product-search', require('./components/ProductSearch.vue').default);
+Vue.component('soup-card', require('./components/SoupCard.vue').default);
+Vue.component('service-card', require('./components/ServiceCard.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

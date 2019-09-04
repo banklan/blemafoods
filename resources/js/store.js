@@ -17,7 +17,8 @@ export const store = new Vuex.Store({
         services: services,
         itemsCost:itemsCost,
         servicesCost:servicesCost,
-        charges: charges
+        charges: charges,
+        specialServices: []
     },
     getters: {
         getCart(state){
@@ -26,6 +27,7 @@ export const store = new Vuex.Store({
         },
         getServices(state){
             localStorage.setItem('services', JSON.stringify(state.services))
+            // console.log(state.services)
             return state.services;
         },
         getItemsCost(state){
@@ -37,27 +39,31 @@ export const store = new Vuex.Store({
         getServicesCost(state){
             const servVal = state.services.map(item=>item.price).reduce((prev, next) => parseFloat(prev) + parseFloat(next), 0);
             state.servicesCost = servVal
-            console.log(servVal)
+            // console.log(servVal)
             localStorage.setItem('services_cost', servVal)
             return servVal
         },
         getCharges(state){
-            if(state.itemsCost < 500000){
+            if(!state.itemsCost){
+                state.charges = 0
+                return 0;
+            }
+            if(state.itemsCost > 10000 && state.itemsCost < 500000){
                 localStorage.setItem('charges', 50000)
                 state.charges = 50000
                 return 50000
             }
-            if(state.itemsCost > 500000 && state.itemsCost < 1000000){
+            if(state.itemsCost > 490000 && state.itemsCost < 1000000){
                 state.charges = 70000
                 localStorage.setItem('charges', 70000)
                 return 70000
             }
-            if(state.itemsCost > 1000000 && state.itemsCost < 2000000){
+            if(state.itemsCost > 990000 && state.itemsCost < 2000000){
                 state.charges = 100000
                 localStorage.setItem('charges', 100000)
                 return 100000
             }
-            if(state.itemsCost > 2000000 && state.itemsCost < 5000000){
+            if(state.itemsCost > 1900000 && state.itemsCost < 5000000){
                 state.charges = 2000000
                 localStorage.setItem('charges', 200000)
                 return 200000
@@ -67,6 +73,10 @@ export const store = new Vuex.Store({
                 localStorage.setItem('charges', 500000)
                 return 500000
             }
+        },
+        getSpecialServices(state){
+            // console.log(state.specialServices)
+            return state.specialServices;
         }
     },
     actions: {},
@@ -82,6 +92,10 @@ export const store = new Vuex.Store({
         },
         update_services(state, payload){
             state.services = payload
-        }
+        },
+        addServsToCart(state,payload){
+            state.specialServices = payload
+        },
+
     }
 })

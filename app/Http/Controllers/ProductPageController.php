@@ -28,22 +28,22 @@ class ProductPageController extends Controller
 
     public function getProteins()
     {
-        return view('product.proteins');
+        return view('product.cat_page');
     }
 
     public function getFruitsVegs()
     {
-        return view('product.fruits_vegs');
+        return view('product.cat_page');
     }
 
     public function getHerbsSpices()
     {
-        return view('product.herbs_Spices');
+        return view('product.cat_page');
     }
 
     public function getCoffeeTea()
     {
-        return view('product.coffee_tea');
+        return view('product.cat_page');
     }
 
     public function getBeveragesDrinks()
@@ -74,5 +74,20 @@ class ProductPageController extends Controller
     public function getGroceries()
     {
         return view('product.cat_page');
+    }
+
+    public function getKitchen()
+    {
+        return view('product.cat_page');
+    }
+
+    public function getSpecialOrder()
+    {
+        return view('product.cat_page');
+    }
+
+    public function services()
+    {
+        return view('services.services');
     }
 }

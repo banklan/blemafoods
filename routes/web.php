@@ -57,8 +57,11 @@ Route::get('/images/products/household/{slug}', 'ProductPageController@getHouseh
 Route::get('/groceries', 'ProductPageController@getGroceries')->name('groceries');
 Route::get('/groceries/{id}/{slug}', 'ProductPageController@getGroceries');
 Route::get('/images/products/groceries/{slug}', 'ProductPageController@getGroceries');
-
-
+Route::get('/kitchen', 'ProductPageController@getKitchen')->name('kitchen');
+Route::get('/kitchen/{id}/{slug}', 'ProductPageController@getKitchen');
+Route::get('/special_order', 'ProductPageController@getSpecialOrder')->name('special.order');
+Route::get('/special_services/services', 'ProductPageController@services')->name('services');
+// Route::get('/test', 'ProductPageController@services')->name('services');
 
 //cart
 Route::get('/my_cart', 'ProductPageController@cart')->name('cart');
@@ -69,3 +72,7 @@ Route::post('/search_for_product', 'ProductController@search');
 Route::get('/get_product/{id}', 'ProductController@getSingleProduct');
 Route::get('/get_similar_products/{cat}/{id}', 'ProductController@getSimilarProducts');
 Route::get('/get_products_categories/{id}', 'ProductController@getProductsByCats');
+Route::post('/post_special_orders', 'OrderController@sendSpecialOrder');
+Route::get('/get_services', 'ServicesController@getServices');
+Route::post('/pay_ondelivery', 'OrderController@payOnDelivery');
+Route::post('/send_orderreceived_emails', 'OrderController@sendOrderReceivedEmails');

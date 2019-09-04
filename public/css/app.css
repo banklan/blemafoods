@@ -16708,6 +16708,10 @@ h2 {
   color: #fff !important;
 }
 
+textarea#address {
+  resize: none !important;
+}
+
 h3.sub_head {
   font-size: 1.7rem !important;
   font-weight: 300 !important;
@@ -16760,6 +16764,7 @@ h3.sub_head {
   width: 40%;
   padding: 10px;
   font-size: 16px !important;
+  text-transform: none !important;
   transition: all 0.4s;
 }
 
@@ -16768,6 +16773,27 @@ h3.sub_head {
   cursor: pointer;
   color: #ff3c38 !important;
   border: 1px solid #ff3c38;
+}
+
+.btn_send {
+  border: 1px solid #aff7f7;
+  color: #fff !important;
+  background-color: #15C5C5 !important;
+  border-radius: 6px;
+  font-weight: 300 !important;
+  width: 35%;
+  padding: 10px;
+  font-size: 16px !important;
+  text-transform: none !important;
+  display: inline-block;
+  transition: all 0.4s;
+}
+
+.btn_send:hover {
+  background: transparent !important;
+  cursor: pointer;
+  color: #15C5C5 !important;
+  border: 1px solid #15C5C5;
 }
 
 a.v-btn--fab {

@@ -38,11 +38,22 @@
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
-                <li class="nav-item mr-3">
-                    <a class="nav-link" href="">Services</a>
+                <li class="nav-item dropdown">
+                    <a id="servicesDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        Special Services <span class="caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                        <a class="dropdown-item" href="{{ route('kitchen') }}">Blema Kitchen</a>
+                        <a class="dropdown-item" href="{{ route('services') }}">Services</a>
+                        <a class="dropdown-item" href="#">Bakery</a>
+                        <a class="dropdown-item" href="#">Fried Snacks</a>
+                    </div>
                 </li>
+
+
                 <li class="nav-item mr-3">
-                    <a class="nav-link" href="#">Special Order</a>
+                    <a class="nav-link" href="{{ route('special.order') }}">Special Order</a>
                 </li>
                 <li class="nav-item mr-3">
                     <a class="nav-link" href="#">Who we are</a>

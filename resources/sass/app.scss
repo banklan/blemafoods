@@ -248,6 +248,10 @@ h2{
     }
 }
 
+textarea#address{
+    resize: none !important;
+}
+
 h3.sub_head{
     font-size: 1.7rem !important;
     font-weight: 300 !important;
@@ -297,6 +301,7 @@ h3.sub_head{
     width: 40%;
     padding: 10px;
     font-size: 16px !important;
+    text-transform: none !important;
     transition: all .4s;
 
     &:hover{
@@ -306,7 +311,26 @@ h3.sub_head{
         border: 1px solid $sec-col;
     }
 }
+.btn_send{
+    border:1px solid $pry-col-light;
+    color: #fff !important;
+    background-color: $pry-col !important;
+    border-radius: 6px;
+    font-weight: 300 !important;
+    width: 35%;
+    padding: 10px;
+    font-size: 16px !important;
+    text-transform: none !important;
+    display: inline-block;
+    transition: all .4s;
 
+    &:hover{
+        background: transparent !important;
+        cursor: pointer;
+        color: $pry-col !important;
+        border: 1px solid $pry-col;
+    }
+}
 a.v-btn--fab{
     top: 6rem !important;
     right: 4rem !important;

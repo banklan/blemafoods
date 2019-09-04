@@ -12,12 +12,12 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-select dense small :items="units" :label="product.unit" v-model="picked.units"></v-select>
-                    <v-btn v-if="product.service_id" small text light class="accent--text" @click.prevent="serviceDial = true">Extra Serv</v-btn>
+                    <!-- <v-btn v-if="product.service_id" small text light class="accent--text" @click.prevent="serviceDial = true">Extra Serv</v-btn> -->
                     <v-btn :loading="loading" :disabled="loading" text light class="primary--text" @click.prevent="addToCart(product)">Add To Cart</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>
-        <v-dialog v-model="serviceDial" max-width="400px">
+        <!-- <v-dialog v-model="serviceDial" max-width="400px">
             <v-card>
                 <v-card-title class="justify-center">
                     <span class="title mt-2">Extra Service </span>
@@ -31,10 +31,10 @@
                     <v-btn class="secondary" dark raised @click.prevent="chooseExtra">Choose</v-btn>
                 </v-card-actions>
             </v-card>
-        </v-dialog>
+        </v-dialog> -->
         <v-snackbar v-model="addSuccess" :timeout="4000" top color="#44a80f">
             You have added an item to your cart
-            <v-btn color="white green--text" flat @click.prevent="addSuccess = false">Close</v-btn>
+            <v-btn color="white green--text" text @click.prevent="addSuccess = false">Close</v-btn>
         </v-snackbar>
     </v-layout>
 </template>
