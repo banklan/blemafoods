@@ -13,4 +13,12 @@ class Order extends Model
     {
         return $this->belongsTo('App\OrderSummary');
     }
+
+    public function product(){
+        return $this->belongsTo('App\Product');
+    }
+
+    public function service(){
+        return $this->belongsTo('App\Service');
+    }
 }

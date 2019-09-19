@@ -16497,6 +16497,10 @@ body {
   padding: 0;
 }
 
+.navbar {
+  padding: 0 !important;
+}
+
 nav#welcome_nav {
   height: 4.5rem;
   background-color: transparent !important;
@@ -16531,11 +16535,11 @@ nav#welcome_nav .navbar-nav .nav-item .nav-link:hover {
   color: #15C5C5 !important;
 }
 
-nav#gen_nav {
-  background: #15C5C5 !important;
+nav#welcome_nav .navbar-nav li.active .nav-link {
+  color: #ff3c38 !important;
 }
 
-nav#gen_nav .navbar-brand {
+nav.gen_nav .navbar-brand {
   color: #ff3c38 !important;
   font-size: 28px;
   font-family: "Pacifico", cursive;
@@ -16543,21 +16547,25 @@ nav#gen_nav .navbar-brand {
   transition: all 0.7s ease-in-out;
 }
 
-nav#gen_nav .navbar-brand:hover {
+nav.gen_nav .navbar-brand:hover {
   color: #fff !important;
 }
 
-nav#gen_nav .navbar-brand img {
+nav.gen_nav .navbar-brand img {
   padding-right: 5px;
 }
 
-nav#gen_nav .navbar-nav .nav-item .nav-link {
+nav.gen_nav .navbar-nav .nav-item .nav-link {
   color: #fff !important;
   font-size: 1rem !important;
   transition: all 0.5s;
 }
 
-nav#gen_nav .navbar-nav .nav-item .nav-link:hover {
+nav.gen_nav .navbar-nav .nav-item .nav-link:hover {
+  color: #ff3c38 !important;
+}
+
+nav.gen_nav .navbar-nav li.active .nav-link {
   color: #ff3c38 !important;
 }
 

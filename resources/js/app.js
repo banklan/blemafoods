@@ -17,6 +17,8 @@ import VueModal from 'vue-js-modal';
 import Routes from './routes';
 import { store } from './store';
 import './filters';
+Vue.use(require('vue-moment'));
+import VueChatScroll from 'vue-chat-scroll';
 // import Vuetify from 'vuetify';
 // import 'vuetify/dist/vuetify.min.css'
 
@@ -24,6 +26,7 @@ import './filters';
 Vue.use(VueRouter);
 Vue.use(VeeValidate);
 Vue.use(VueModal);
+Vue.use(VueChatScroll);
 
 const router = new VueRouter({
     routes: Routes,
@@ -45,11 +48,14 @@ const router = new VueRouter({
 Vue.component('product-organic', require('./components/OrganicProduct.vue').default);
 Vue.component('mini-cart', require('./components/CartMini.vue').default);
 Vue.component('my-cart', require('./components/MyCart.vue').default);
-Vue.component('organic-products', require('./components/OrganicProducts.vue').default);
+// Vue.component('organic-products', require('./components/OrganicProducts.vue').default);
 Vue.component('product-card', require('./components/ProductCard.vue').default);
 Vue.component('product-search', require('./components/ProductSearch.vue').default);
 Vue.component('soup-card', require('./components/SoupCard.vue').default);
 Vue.component('service-card', require('./components/ServiceCard.vue').default);
+Vue.component('nav-drawer-user', require('./components/User/NavDrawer.vue').default);
+Vue.component('nav-drawer-admin', require('./components/Admin/NavDrawer.vue').default);
+// Vue.component('continue-shopping-dialog', require('./components/User/ContinueShopping.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

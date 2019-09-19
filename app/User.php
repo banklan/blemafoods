@@ -19,6 +19,9 @@ class User extends Authenticatable
         'name', 'email', 'password', 'phone'
     ];
 
+    protected $with = ['location'];
+
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -36,4 +39,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function location()
+    {
+        return $this->belongsTo('App\Location');
+    }
+
+    public function message()
+    {
+        return $this->hasMany('App\Message');
+    }
 }

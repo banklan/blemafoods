@@ -1,27 +1,35 @@
-<nav class="navbar navbar-expand-md navbar-dark shadow-sm" id="gen_nav">
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+?>
+<nav class="navbar navbar-expand-md navbar-dark gen_nav" style="background-color: #15C5C5">
     <div class="container">
+        <!-- Brand -->
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('images/brand/logo.jpg') }}" height="40" alt="logo">
-            <span>{{ config('app.name', 'Laravel') }}</span>
+            <span>Blema</span>
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+
+        <!-- Toggler/collapsibe Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto">
-
-            </ul>
-
-            <!-- Right Side Of Navbar -->
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown {{ \Request::is('raw_foodstuffs') ? 'active' : '' }}">
-                    <a id="catDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                @if(Auth::check())
+                    <li class="nav-item {{ Route::currentRouteNamed('home') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('home') }}">Dashboard</a>
+                    </li>
+                @endif
+                <li class="nav-item dropdown">
+                    <a id="catDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         Categories <span class="caret"></span>
                     </a>
 
-                    <div class="dropdown-menu" aria-labelledby="catDropdown">
+                    <div class="dropdown-menu" aria-labelledby="catDropdown1">
                         <a class="dropdown-item" href="{{ route('foodstuff') }}">Raw Food Stuff</a>
                         <a class="dropdown-item" href="{{ route('soup_recipes') }}">Soup Recipes</a>
                         <a class="dropdown-item" href="{{ route('proteins') }}">Fish and Meat</a>
@@ -39,11 +47,11 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a id="servicesDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    <a id="servicesDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         Special Services <span class="caret"></span>
                     </a>
 
-                    <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                    <div class="dropdown-menu" aria-labelledby="servicesDropdown1">
                         <a class="dropdown-item" href="{{ route('kitchen') }}">Blema Kitchen</a>
                         <a class="dropdown-item" href="{{ route('services') }}">Services</a>
                         <a class="dropdown-item" href="#">Bakery</a>
@@ -51,22 +59,18 @@
                     </div>
                 </li>
 
-
-                <li class="nav-item mr-3">
-                    <a class="nav-link" href="{{ route('special.order') }}">Special Order</a>
-                </li>
-                <li class="nav-item mr-3">
-                    <a class="nav-link" href="#">Who we are</a>
-                </li>
-                <li class="nav-item mr-3">
-                    <a class="nav-link" href="#">Contact Us</a>
-                </li>
-                <li class="nav-item mr-3">
-                    <a class="nav-link" href="{{ route('cart') }}">My Cart</a>
-                </li>
-
                 <!-- Authentication Links -->
                 @guest
+                    <li class="nav-item mr-3">
+                        <a class="nav-link" href="#">Who we are</a>
+                    </li>
+                    <li class="nav-item mr-3">
+                        <a class="nav-link" href="#">Contact Us</a>
+                    </li>
+                    <li class="nav-item mr-3 {{ \Request::is('myCart') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('cart') }}">My New Cart</a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                     </li>
@@ -76,19 +80,27 @@
                         </li>
                     @endif
                 @else
+                    <li class="nav-item mr-3 {{ \Request::is('special_order') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('special.order') }}">Special Order</a>
+                    </li>
+
+                    <li class="nav-item mr-3 {{ \Request::is('my_cart') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('cart') }}">My Cart</a>
+                    </li>
+
                     <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        <a id="navbarDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown1">
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
+                                                document.getElementById('logout-form1').submit();">
                                 {{ __('Logout') }}
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form1" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
                         </div>

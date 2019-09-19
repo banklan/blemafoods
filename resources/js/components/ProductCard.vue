@@ -12,15 +12,29 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-select dense small :items="units" :label="product.unit" v-model="picked.units"></v-select>
-                    <v-btn :loading="loading" :disabled="loading" text light class="primary--text" @click.prevent="addToCart(product)">Add To Cart</v-btn>
+                    <!-- <v-btn :loading="loading" :disabled="loading" text light class="primary--text" @click.prevent="addToCart(product)">Add To Cart</v-btn> -->
+                    <v-btn :loading="loading" :disabled="loading" text light class="primary--text" @click="addToCart(product)">Add To Cart</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>
+        <v-row justify="center">
+            <v-dialog v-model="confirmAdd" max-width="350">
+                <v-card class="confirm_dialg">
+                    <v-card-title class="subtitle-1 justify-center">Item Added To Cart</v-card-title>
 
-        <v-snackbar v-model="addSuccess" :timeout="4000" top color="#44a80f">
-            You have added an item to your cart
-            <v-btn color="white green--text" flat @click.prevent="addSuccess = false">Close</v-btn>
-        </v-snackbar>
+                    <v-card-text>
+                        <div class="subtitle-2 black--text">What do you want to do?</div>
+                    </v-card-text>
+                    <v-card-actions>
+                        <div class="flex-grow-1"></div>
+                        <v-btn dark color="#ff5e5a" @click="confirmAdd = false">
+                            Continue Shopping
+                        </v-btn>
+                        <v-btn href="/my_cart" class='btn btn_submit'>Buy Now</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </v-row>
     </v-layout>
 </template>
 
@@ -31,44 +45,33 @@ export default {
         return {
             units: [1,2,3,4,5],
             unit: null,
-            serviceDial: false,
-            services: [],
             picked: {
-                product: null,
+                id: null,
+                name: '',
+                price: null,
                 units: null,
-                cost: null
-            },
-            serviceStatus: false,
-            service: {
-                type: null,
-                price: null
+                cost: null,
             },
             loading: false,
-            addSuccess: false
+            confirmAdd: false,
         }
     },
     methods: {
-        chooseExtra(product){
-            this.picked.service = product.service_id
-            this.serviceDial = false
-        },
-        cancelExtra(){
-            this.serviceDial = false;
-            this.picked.service = null
-        },
         addToCart(product){
             this.loading = true
-            this.picked.product = product
-            this.picked.cost = parseFloat(product.price) * this.picked.units
-            this.$store.commit('addItemsToCart', this.picked)
-
-            if(this.serviceStatus == true){
-                this.service.type = product.service.name
-                this.service.price = product.service.price
-                this.$store.commit('addServicesToCart', this.service)
+            this.picked.id = product.id
+            this.picked.name = product.name
+            this.picked.price = product.price
+            if(!this.picked.units){
+                this.picked.units = 1
             }
-            this.addSuccess = true
+            this.pickedUnit = this.picked.units
+            this.picked.cost = parseFloat(product.price) * this.picked.units
+
+            this.$store.commit('addItemsToCart', this.picked)
+            this.picked = {}
             this.loading = false
+            this.confirmAdd = true
         }
     },
 }

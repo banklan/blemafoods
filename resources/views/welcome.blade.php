@@ -8,5 +8,4 @@
     @include('welcome.popular')
     @include('welcome.why_choose')
     @include('layouts.footer')
-    <!-- <router-view></router-view> -->
 @endsection

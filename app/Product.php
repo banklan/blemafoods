@@ -18,16 +18,15 @@ class Product extends Model
         return $this->belongsTo('App\Category');
     }
 
-    // public function service()
-    // {
-    //     return $this->hasOne('App\Service');
-    // }
+    public function order()
+    {
+        return $this->hasMany('App\Order');
+    }
 
     public function service()
     {
         return $this->hasMany('App\Service');
     }
-
 
     public function getSlugAttribute($value)
     {

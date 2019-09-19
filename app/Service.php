@@ -13,5 +13,8 @@ class Service extends Model
         return $this->belongsTo('App\Product');
     }
 
-
+    public function order()
+    {
+        return $this->hasMany('App\Order');
+    }
 }

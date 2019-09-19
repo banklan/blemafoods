@@ -54,6 +54,9 @@ body{
 // #navbarSupportedContent > ul.navbar-nav.ml-auto > li.nav-item.dropdown.px-2.show > div > a:hover{
 //     color: $sec-col !important;
 // }
+.navbar{
+    padding: 0 !important;
+}
 nav#welcome_nav{
     height: 4.5rem;
     background-color: transparent !important;
@@ -86,9 +89,14 @@ nav#welcome_nav{
             color: $pry-col !important;
         }
     }
+
+    .navbar-nav li.active .nav-link{
+        color: $sec-col !important;
+    }
 }
-nav#gen_nav{
-    background: $pry-col !important;
+nav.gen_nav{
+    // background: $pry-col !important;
+    // height: 5rem !important;
 
     .navbar-brand{
         color: $sec-col !important;
@@ -113,7 +121,13 @@ nav#gen_nav{
             color: $sec-col !important;
         }
     }
+    .navbar-nav li.active .nav-link{
+        color: $sec-col !important;
+    }
 }
+
+
+
 .navbar-dark .navbar-toggler{
     border-color: #f9f9f9 !important;
     color: #fff !important;

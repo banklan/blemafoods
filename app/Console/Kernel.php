@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Message;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -26,6 +28,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        //delete messages that are older than 30days
+        $schedule->call(function(){
+            Message::where('created_date', '<=', Carbon::now()->subDays(30)->toDateTimeString())->delete();
+        });
     }
 
     /**

@@ -9,7 +9,7 @@
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore, vitae voluptatibus nam dolore perferendis dolor sit amet consectetur adipisicing elit. laudantium eius provident alias quisquam inventore voluptatem voluptates, maxime earum! Commodi sed est recusandae nam aspernatur.</p>
             </div>
             <div class="service_footer text-center">
-                <a href="" class="btn btn_cta">Make Orders</a>
+                <a href="{{ route('groceries') }}" class="btn btn_cta">Make Orders</a>
             </div>
         </div>
         <div class="service_card">
@@ -20,7 +20,7 @@
                 <p>Corleum ipsum, dolor sit amet consectetur elit. Labore, vitae voluptatibus nam dolore perferendis dolor sit amet consectetur adipisicing elit. laudantium eius provident alias quisquam inventore voluptatem voluptates, maxime earum! Commodi sed est recusandae nam aspernatur.</p>
             </div>
             <div class="service_footer text-center">
-                <a href="" class="btn btn_cta">Make Orders</a>
+                <a href="{{ route('foodstuff') }}" class="btn btn_cta">Make Orders</a>
             </div>
         </div>
         <div class="service_card">
@@ -31,7 +31,7 @@
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore, vitae voluptatibus nam dolore perferendis dolor sit amet consectetur adipisicing elit. laudantium eius provident alias quisquam inventore voluptatem voluptates, maxime earum! Commodi sed est recusandae nam aspernatur.</p>
             </div>
             <div class="service_footer text-center">
-                <a href="" class="btn btn_cta">Make Orders</a>
+                <a href="{{ route('special.order') }}" class="btn btn_cta">Make Orders</a>
             </div>
         </div>
     </div>

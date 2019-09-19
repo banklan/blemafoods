@@ -21,7 +21,7 @@
                                     </v-flex>
                                     <v-flex xs12 sm6>
                                     <v-card-title>
-                                        <div class="body-5 primary--text">{{ product.name }}  - &#8358;{{ product.price | price }}</div>
+                                        <div class="subtitle primary--text">{{ product.name }}  - &#8358;{{ product.price | price }}</div>
                                     </v-card-title>
                                         <v-card-text>
                                             <div class="body-3 grey--text mb-3">{{ product.description }}</div>
@@ -33,7 +33,7 @@
                                                         <v-select dense small :items="units" :label="product.unit" v-model="picked.units"></v-select>
                                                     </v-col>
                                                     <v-col cols="6">
-                                                        <v-btn :disabled="loading" text light class="primary--text" @click.prevent="addToCart(product)">Add To Cart</v-btn>
+                                                        <v-btn :disabled="added" text light class="primary--text" @click.prevent="addToCart(product)">Add To Cart</v-btn>
                                                     </v-col>
                                                 </v-row>
                                             </v-container>
@@ -41,10 +41,10 @@
                                     </v-flex>
                                 </v-layout>
                                 <v-progress-circular indeterminate color="coral" :width="7" :size="70" v-if="!product"></v-progress-circular>
-                                <v-snackbar v-model="addSuccess" :timeout="4000" top color="#44a80f">
+                                <!-- <v-snackbar v-model="addSuccess" :timeout="4000" top color="#44a80f">
                                     You have added an item to your cart
                                     <v-btn color="white green--text" text  @click="addSuccess = false">Close</v-btn>
-                                </v-snackbar>
+                                </v-snackbar> -->
                             </v-container>
                         </v-card>
                     </v-flex>
@@ -59,7 +59,7 @@
                                  </v-card-title>
                                  <v-card-text>
                                      <span>{{ serv.description }}</span>
-                                     <v-btn v-if="added" :disabled="loading2" text dark class="primary--text float-right" @click.prevent="addService(serv)">Add Service</v-btn>
+                                     <v-btn :disabled="loading" text dark class="primary--text float-right" @click.prevent="addService(serv)">Add Service</v-btn>
                                 </v-card-text>
                              </v-card>
                         </v-card>
@@ -88,9 +88,27 @@
                         </v-card>
                     </v-flex>
                 </v-layout>
+                <v-row justify="center">
+                    <v-dialog v-model="confirmAdd" max-width="350">
+                        <v-card class="confirm_dialg">
+                            <v-card-title class="subtitle-1 justify-center">Item Added To Cart</v-card-title>
+
+                            <v-card-text>
+                                <div class="subtitle-2 black--text">What do you want to do?</div>
+                            </v-card-text>
+                            <v-card-actions>
+                                <div class="flex-grow-1"></div>
+                                <v-btn dark color="#ff5e5a" @click="confirmAdd = false">
+                                    Continue Shopping
+                                </v-btn>
+                                <v-btn href="/my_cart" class='btn btn_submit'>Buy Now</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                </v-row>
                 <v-snackbar v-model="serviceAddedSuccess" :timeout="4000" top color="#44a80f">
                     You have added a service to your cart
-                    <v-btn color="white green--text" text @click.prevent="addSuccess = false">Close</v-btn>
+                    <v-btn color="white green--text" text @click.prevent="serviceAddedSuccess = false">Close</v-btn>
                 </v-snackbar>
             </v-container>
         </v-content>
@@ -103,10 +121,11 @@ export default {
         return {
             id: null,
             product: null,
-            serviceStatus: false,
             units: [1,2,3,4,5],
             picked: {
-                product: null,
+                id: null,
+                name: '',
+                price: null,
                 units: null,
                 cost: null,
             },
@@ -119,11 +138,14 @@ export default {
             },
             loading: false,
             loading2: false,
-            addSuccess: false,
+            // addSuccess: false,
             similar: [],
             serviceAddedSuccess: false,
             added: false,
-            unitsPicked: null
+            unitsPicked: null,
+            added: false,
+            pickedUnit: null,
+            confirmAdd: false
         }
     },
     watch: {
@@ -148,28 +170,33 @@ export default {
             })
         },
         addToCart(product){
-            this.loading = true
             this.added = true
-            if(this.picked.units == null){
+            this.picked.id = product.id
+            this.picked.name = product.name
+            this.picked.price = product.price
+            if(!this.picked.units){
                 this.picked.units = 1
             }
-            this.unitsPicked = this.picked.units
-            this.picked.product = product
+            this.pickedUnit = this.picked.units
             this.picked.cost = parseFloat(product.price) * this.picked.units
-            this.addSuccess = true
+            // console.log(this.picked)
+            this.added = false
+
             this.$store.commit('addItemsToCart', this.picked)
             this.picked = {}
+            this.confirmAdd = true
         },
         addService(serv){
-            this.loading2 = true
-            this.addedService.id = serv.id
+            this.loading = true
             this.addedService.type = serv.name
+            this.addedService.id = serv.id
             this.addedService.price = serv.price
-            this.addedService.units = this.unitsPicked
-            this.addedService.cost = parseFloat(this.addedService.price) * this.unitsPicked
+            this.addedService.units = this.pickedUnit
+            this.addedService.cost = parseFloat(serv.price) * this.addedService.units
             this.$store.commit('addServicesToCart', this.addedService)
             this.serviceAddedSuccess = true
-            this.unitsPicked = null
+            this.loading = false
+            this.addedService = {}
         },
         goSimilar(){
             this.$router.push('/raw_foodstuff/' + this.product.id + '/' + this.product.slug)
@@ -185,7 +212,7 @@ export default {
 
 <style lang="scss" scoped>
     @media screen and (min-width: 600px){
-        .v-card{
+        .v-card:not(.v-card.confirm_dialg){
             margin-left: 2.5rem !important;
 
         }

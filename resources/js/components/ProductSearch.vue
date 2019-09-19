@@ -10,20 +10,31 @@
 export default {
     data() {
         return {
-            q: ''
+            q: '',
+            query: this.$route.query.q
+        }
+    },
+    watch: {
+        '$route.query.q': {
+            handler(newVal){
+                // this.$router.push({name: 'ProductSearchResult', query:{q: newVal}})
+            }
         }
     },
     methods: {
         searchForProd(){
-            if(!this.q.trim() == ""){
-                axios.post('/search_for_product', {
-                    q: this.q
-                }).then((res) => {
-                    console.log(res.data)
-                    this.$router.push({name: 'ProductSearchResult', query:{q: this.q}, params:{result: res.data}})
-                    localStorage.setItem('ProductSearchResult', JSON.stringify(res.data))
+            if(this.q.trim() !== ""){
+                // axios.post('/search_for_product', {
+                //     q: this.q
+                // }).then((res) => {
+                //     // console.log(res.data)
+                    // this.$store.commit('searchResults', res.data)
+                    this.$router.push({name: 'ProductSearchResult', query:{q: this.q}})
+
+                    // localStorage.setItem('ProductSearchResult', JSON.stringify(res.data))
                     //pass to the search result page
-                })
+                    // console.log(this.$route.path)
+                // })
             }
         }
     },

@@ -3,7 +3,8 @@
         <v-progress-circular indeterminate color="coral" :width="7" :size="70" v-if="!product"></v-progress-circular>
         <v-flex xs12 v-if="product">
             <v-card raised elevation="10" light ripple hover height="380">
-                <router-link :to="{name: 'FoodStuffShow', params: {id: product.id, name: product.slug}}">
+                <!-- <router-link :to="{name: 'FoodStuffShow', params: {id: product.id, name: product.slug}}"> -->
+                <router-link :to="{path: `/${product.category.slug}/${product.id}/${product.slug}`}">
                     <v-img contain max-height="210" class="pt-2" :src="`images/products/organic/${product.picture}`" transition="scale-transition"></v-img>
                     <v-card-title><div class="body-2 primary--text px-2">{{ product.name }} - &#8358;{{ product.price | price }} per {{ product.unit }}</div></v-card-title>
                 </router-link>
@@ -12,30 +13,28 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-select dense small :items="units" :label="product.unit" v-model="picked.units"></v-select>
-                    <!-- <v-btn v-if="product.service_id" small text light class="accent--text" @click.prevent="serviceDial = true">Extra Serv</v-btn> -->
                     <v-btn :loading="loading" :disabled="loading" text light class="primary--text" @click.prevent="addToCart(product)">Add To Cart</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>
-        <!-- <v-dialog v-model="serviceDial" max-width="400px">
-            <v-card>
-                <v-card-title class="justify-center">
-                    <span class="title mt-2">Extra Service </span>
-                </v-card-title>
-                <v-card-text>
-                    <strong>{{ product.service && product.service.name }}</strong> - This cost an extra &#8358;{{ product.service && product.service.price | price}}.
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="error" @click="cancelExtra">Cancel</v-btn>
-                    <v-btn class="secondary" dark raised @click.prevent="chooseExtra">Choose</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog> -->
-        <v-snackbar v-model="addSuccess" :timeout="4000" top color="#44a80f">
-            You have added an item to your cart
-            <v-btn color="white green--text" text @click.prevent="addSuccess = false">Close</v-btn>
-        </v-snackbar>
+        <v-row justify="center">
+            <v-dialog v-model="confirmAdd" max-width="350">
+                <v-card class="confirm_dialg">
+                    <v-card-title class="subtitle-1 justify-center">Item Added To Cart</v-card-title>
+
+                    <v-card-text>
+                        <div class="subtitle-2 black--text">What do you want to do?</div>
+                    </v-card-text>
+                    <v-card-actions>
+                        <div class="flex-grow-1"></div>
+                        <v-btn dark color="#ff5e5a" @click="confirmAdd = false">
+                            Continue Shopping
+                        </v-btn>
+                        <v-btn href="/my_cart" class='btn btn_submit'>Buy Now</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </v-row>
     </v-layout>
 </template>
 
@@ -46,59 +45,47 @@ export default {
         return {
             units: [1,2,3,4,5],
             unit: null,
-            serviceDial: false,
-            services: [],
             picked: {
-                product: null,
+                id: null,
+                name: '',
+                price: null,
                 units: null,
-                cost: null
-            },
-            serviceStatus: false,
-            service: {
-                type: null,
-                price: null
+                cost: null,
             },
             loading: false,
-            addSuccess: false
+            // addSuccess: false,
+            added: false,
+            pickedUnit: null,
+            confirmAdd: false
         }
     },
     methods: {
-        chooseExtra(product){
-            this.picked.service = product.service_id
-            this.serviceDial = false
-        },
-        cancelExtra(){
-            this.serviceDial = false;
-            this.picked.service = null
-        },
         addToCart(product){
             this.loading = true
-            this.picked.product = product
-            this.picked.cost = parseFloat(product.price) * this.picked.units
-            if(this.picked.units == null){
+            this.added = true
+            this.picked.id = product.id
+            this.picked.name = product.name
+            this.picked.price = product.price
+            if(!this.picked.units){
                 this.picked.units = 1
             }
-            this.$store.commit('addItemsToCart', this.picked)
 
-            if(this.serviceStatus == true){
-                this.service.type = product.service.name
-                this.service.price = product.service.price
-                this.$store.commit('addServicesToCart', this.service)
-            }
-            this.addSuccess = true
+            this.pickedUnit = this.picked.units
+            this.picked.cost = parseFloat(this.picked.price) * this.picked.units
+
+            this.$store.commit('addItemsToCart', this.picked)
+            this.added = false
+            // this.addSuccess = true
             this.loading = false
+            this.picked = {}
+            this.confirmAdd = true
         }
     },
 }
 </script>
 
 <style lang="scss" scoped>
-    //  @media screen and (min-width: 960px) {
-    //     .flex.md4{
-    //         flex-basis: 22% !important;
-    //         margin-bottom: 2rem;
-    //     }
-    // }
+
     *{
         text-transform: none !important;
     }

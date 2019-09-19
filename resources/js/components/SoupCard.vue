@@ -12,7 +12,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-select dense small :items="units" :label="product.unit" v-model="picked.units"></v-select>
-                    <v-btn :loading="loading" :disabled="loading" text light class="primary--text" @click.prevent="addToCart(product)">Add To Cart</v-btn>
+                    <v-btn :disabled="loading" text light class="primary--text" @click.prevent="addToCart(product)">Add To Cart</v-btn>
                 </v-card-actions>
             </v-card>
         </v-flex>
@@ -31,44 +31,32 @@ export default {
         return {
             units: [1,2,3,4,5],
             unit: null,
-            serviceDial: false,
             services: [],
             picked: {
-                product: null,
+                id: null,
+                name: null,
                 units: null,
+                price: null,
                 cost: null
-            },
-            serviceStatus: false,
-            service: {
-                type: null,
-                price: null
             },
             loading: false,
             addSuccess: false
         }
     },
     methods: {
-        chooseExtra(product){
-            this.picked.service = product.service_id
-            this.serviceDial = false
-        },
-        cancelExtra(){
-            this.serviceDial = false;
-            this.picked.service = null
-        },
         addToCart(product){
             this.loading = true
-            this.picked.product = product
+            this.picked.id = product.id
+            this.picked.name = product.name
+            this.picked.price = product.price
+            if(!this.picked.units){
+                this.picked.units = 1
+            }
             this.picked.cost = parseFloat(product.price) * this.picked.units
             this.$store.commit('addItemsToCart', this.picked)
-
-            if(this.serviceStatus == true){
-                this.service.type = product.service.name
-                this.service.price = product.service.price
-                this.$store.commit('addServicesToCart', this.service)
-            }
             this.addSuccess = true
-            this.loading = false
+            // this.loading = false
+            this.picked = {}
         }
     },
 }
