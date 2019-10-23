@@ -3,8 +3,7 @@
         <v-progress-circular indeterminate color="coral" :width="7" :size="70" v-if="!product"></v-progress-circular>
         <v-flex xs12 v-if="product">
             <v-card raised elevation="10" light ripple hover height="380">
-                <!-- <router-link :to="{name: 'FoodStuffShow', params: {id: product.id, name: product.slug}}"> -->
-                <router-link :to="{path: `/${product.category.slug}/${product.id}/${product.slug}`}">
+               <router-link :to="{path: `/${product.category.slug}/${product.id}/${product.slug}`}">
                     <v-img contain max-height="210" class="pt-2" :src="`images/products/organic/${product.picture}`" transition="scale-transition"></v-img>
                     <v-card-title><div class="body-2 primary--text px-2">{{ product.name }} - &#8358;{{ product.price | price }} per {{ product.unit }}</div></v-card-title>
                 </router-link>
@@ -27,10 +26,10 @@
                     </v-card-text>
                     <v-card-actions>
                         <div class="flex-grow-1"></div>
-                        <v-btn dark color="#ff5e5a" @click="confirmAdd = false">
+                        <v-btn dark color="primary" ripple @click.prevent="confirmAdd = false">
                             Continue Shopping
                         </v-btn>
-                        <v-btn href="/my_cart" class='btn btn_submit'>Buy Now</v-btn>
+                        <v-btn href="/my_cart" ripple class='btn btn_submit'>Buy Now</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -53,7 +52,6 @@ export default {
                 cost: null,
             },
             loading: false,
-            // addSuccess: false,
             added: false,
             pickedUnit: null,
             confirmAdd: false

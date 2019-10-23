@@ -55,6 +55,9 @@ Vue.component('soup-card', require('./components/SoupCard.vue').default);
 Vue.component('service-card', require('./components/ServiceCard.vue').default);
 Vue.component('nav-drawer-user', require('./components/User/NavDrawer.vue').default);
 Vue.component('nav-drawer-admin', require('./components/Admin/NavDrawer.vue').default);
+Vue.component('contact-us', require('./components/ContactUs.vue').default);
+Vue.component('about-us', require('./components/AboutUs.vue').default);
+Vue.component('how-it-works', require('./components/HowItWorks.vue').default);
 // Vue.component('continue-shopping-dialog', require('./components/User/ContinueShopping.vue').default);
 
 /**

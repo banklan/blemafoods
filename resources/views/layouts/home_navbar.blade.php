@@ -40,7 +40,7 @@
 
                 <li class="nav-item dropdown">
                     <a id="servicesDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        Special Services <span class="caret"></span>
+                    Kitchen and Bakes <span class="caret"></span>
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="servicesDropdown">
@@ -51,11 +51,11 @@
                     </div>
                 </li>
 
-                <li class="nav-item mr-3">
-                    <a class="nav-link" href="#">Who we are</a>
+                <li class="nav-item mr-3 {{ \Request::is('about_us') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('about_us') }}">Who we are</a>
                 </li>
-                <li class="nav-item mr-3">
-                    <a class="nav-link" href="#">Contact Us</a>
+                <li class="nav-item mr-3 {{ \Request::is('contact_us') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('contact_us') }}">Contact Us</a>
                 </li>
 
                 <!-- Authentication Links -->

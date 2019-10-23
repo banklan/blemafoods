@@ -23,6 +23,25 @@ import MyOrder from './components/user/MyOrder';
 import UserAccount from './components/user/Account';
 import Messages from './components/user/Messages';
 import AdminHome from './components/Admin/Home';
+import AdminOrders from './components/Admin/Orders';
+import AdminOrder from './components/Admin/Order';
+import AdminMessage from './components/Admin/Message';
+import AdminMessages from './components/Admin/Messages';
+import AdminUsers from './components/Admin/Users';
+import AdminUser from './components/Admin/User';
+import AdminUserOrders from './components/Admin/UserOrders';
+import AdminProducts from './components/Admin/Products';
+import AdminProductShow from './components/Admin/ProductShow';
+import AdminServiceShow from './components/Admin/ServiceShow';
+import AdminCategories from './components/Admin/Categories';
+import AdminLocations from './components/Admin/Locations';
+import AdminTrxCharges from './components/Admin/TransactionCharges';
+import AdminSetCharges from './components/Admin/SetCharges';
+import AdminSpecialOrders from './components/Admin/SpecialOrders';
+import AdminSpecialOrderShow from './components/Admin/SpecialOrderShow';
+import AdminSettings from './components/Admin/Settings';
+import AdminEnquiries from './components/Admin/Enquiries';
+import AdminEnquiryMail from './components/Admin/EnquiryMail';
 
 export default[
     {path: '/', name: 'Welcome', component: Welcome},
@@ -50,4 +69,23 @@ export default[
     {path: '/account', name: 'UserAccount', component: UserAccount, props: true},
     {path: '/messages', name: 'Messages', component: Messages},
     {path: '/admin', name: 'AdminHome', component: AdminHome},
+    {path: '/admin/orders', name: 'AdminOrders', component: AdminOrders},
+    {path: '/admin/orders/:id/:order', name: 'AdminOrder', component: AdminOrder},
+    {path: '/admin/messages/:userId/:userSlug', name: 'AdminMessage', component: AdminMessage},
+    {path: '/admin/messages', name: 'AdminMessages', component: AdminMessages},
+    {path: '/admin/users', name: 'AdminUsers', component: AdminUsers},
+    {path: '/admin/user/:user/:slug', name: 'AdminUser', component: AdminUser},
+    {path: '/admin/user/:user/:slug/orders', name: 'AdminUserOrders', component: AdminUserOrders},
+    {path: '/admin/products', name: 'AdminProducts', component: AdminProducts},
+    {path: '/admin/product/:product/:slug', name: 'AdminProductShow', component: AdminProductShow},
+    {path: '/admin/product/:product/service/:id/:slug', name: 'AdminServiceShow', component: AdminServiceShow},
+    {path: '/admin/categories', name: 'AdminCategories', component: AdminCategories},
+    {path: '/admin/locations', name: 'AdminLocations', component: AdminLocations},
+    {path: '/admin/transaction_charges', name: 'AdminTrxCharges', component: AdminTrxCharges},
+    {path: '/admin/set_charges', name: 'AdminSetCharges', component: AdminSetCharges},
+    {path: '/admin/special_orders', name: 'AdminSpecialOrders', component: AdminSpecialOrders},
+    {path: '/admin/special_order/:id/:special', name: 'AdminSpecialOrderShow', component: AdminSpecialOrderShow},
+    {path: '/admin/settings', name: 'AdminSettings', component: AdminSettings},
+    {path: '/admin/enquiries', name: 'AdminEnquiries', component: AdminEnquiries},
+    {path: '/admin/enquiry/:mail/:slug', name: 'AdminEnquiryMail', component: AdminEnquiryMail},
 ]

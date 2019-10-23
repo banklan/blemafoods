@@ -24,6 +24,7 @@
 
                     <v-list-item-title v-text="link.title">
                     </v-list-item-title>
+                    <span class="float-right" v-if="link.unread">{{ unread }}</span>
                 </v-list-item>
             </v-list-item-group>
         </v-list>
@@ -39,16 +40,26 @@ export default {
             items: [
                 {title: 'My Orders', icon: 'dashboard', to: '/my_orders'},
                 {title: 'Account', icon: 'people_outline', to: '/account'},
-                {title: 'Messages', icon: 'message', to: '/messages'},
+                {title: 'Messages', icon: 'message', to: '/messages', unread: 'unread'},
                 {title: 'Link 1', icon: 'info'},
                 {title: 'Link 2', icon: 'folder'},
-            ]
+            ],
+            unread: null
+        }
+    },
+    methods: {
+        getUnread(){
+            axios.get('/get_users_unread_msgs').then((res) => {
+                this.unread = res.data
+            })
         }
     },
     mounted() {
         if(window.Laravel.auth){
             this.user = window.Laravel.user
         }
+
+        this.getUnread()
     },
 }
 </script>

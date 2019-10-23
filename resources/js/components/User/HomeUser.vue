@@ -172,7 +172,6 @@ export default {
 <style lang="scss" scoped>
     a.v-card:hover{
         text-decoration: none !important;
-
     }
 </style>
 

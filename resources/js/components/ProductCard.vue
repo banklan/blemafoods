@@ -12,7 +12,6 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-select dense small :items="units" :label="product.unit" v-model="picked.units"></v-select>
-                    <!-- <v-btn :loading="loading" :disabled="loading" text light class="primary--text" @click.prevent="addToCart(product)">Add To Cart</v-btn> -->
                     <v-btn :loading="loading" :disabled="loading" text light class="primary--text" @click="addToCart(product)">Add To Cart</v-btn>
                 </v-card-actions>
             </v-card>
@@ -27,7 +26,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <div class="flex-grow-1"></div>
-                        <v-btn dark color="#ff5e5a" @click="confirmAdd = false">
+                        <v-btn color="primary" text @click="confirmAdd = false">
                             Continue Shopping
                         </v-btn>
                         <v-btn href="/my_cart" class='btn btn_submit'>Buy Now</v-btn>

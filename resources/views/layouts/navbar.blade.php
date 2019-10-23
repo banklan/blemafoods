@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Auth;
                 </li>
                 <li class="nav-item dropdown">
                     <a id="servicesDropdown1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        Special Services <span class="caret"></span>
+                        Kitchen and Bakes <span class="caret"></span>
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="servicesDropdown1">
@@ -61,14 +61,14 @@ use Illuminate\Support\Facades\Auth;
 
                 <!-- Authentication Links -->
                 @guest
-                    <li class="nav-item mr-3">
-                        <a class="nav-link" href="#">Who we are</a>
+                    <li class="nav-item mr-3 {{ \Request::is('about_us') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('about_us') }}">Who we are</a>
                     </li>
-                    <li class="nav-item mr-3">
-                        <a class="nav-link" href="#">Contact Us</a>
+                    <li class="nav-item mr-3 {{ \Request::is('contact_us') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('contact_us') }}">Contact Us</a>
                     </li>
-                    <li class="nav-item mr-3 {{ \Request::is('myCart') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('cart') }}">My New Cart</a>
+                    <li class="nav-item mr-3 {{ \Request::is('my_cart') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('cart') }}">My Cart</a>
                     </li>
 
                     <li class="nav-item">

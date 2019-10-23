@@ -23,8 +23,9 @@ class MessageController extends Controller
 
         $message = new Message;
         $message->sender_id = $user;
-        $message->receiver_id = 999999;
+        $message->receiver_id = 1;
         $message->message = $request->message;
+        $message->status = 0;
         $message->save();
 
         return response()->json($message, 200);
@@ -37,5 +38,14 @@ class MessageController extends Controller
         $messages = Message::where('sender_id', $user)->orWhere('receiver_id', $user)->get();
 
         return response()->json($messages, 200);
+    }
+
+    public function getUnreadMessages()
+    {
+        $user = Auth::id();
+
+        $unreads = Message::where(['receiver_id' => $user, 'status' => 0])->count();
+
+        return response()->json($unreads, 200);
     }
 }

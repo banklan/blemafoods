@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\AdminResetPasswordNotification;
@@ -21,6 +22,8 @@ class Admin extends Authenticatable
     ];
 
     protected $guard = 'admin';
+
+    protected $appends = ['created_date'];
 
 
     /**
@@ -44,5 +47,11 @@ class Admin extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new AdminResetPasswordNotification($token));
+    }
+
+    public function getCreatedDateAttribute($value)
+    {
+        $date = Carbon::parse($this->created_at)->toFormattedDateString();
+        return $date;
     }
 }

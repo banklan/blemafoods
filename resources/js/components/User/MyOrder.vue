@@ -117,11 +117,6 @@ export default {
             orders: []
         }
     },
-    computed: {
-        total(){
-            // this.orders.map(item->item)
-        }
-    },
     methods:{
         getOrder(){
             axios.get(`/get_userorder/${this.orderId}`).then((res) => {

@@ -633,6 +633,7 @@ a.v-btn--fab{
             ul{
                 list-style-type: none;
                 line-height: 1.8;
+                margin-left: 2.5rem !important;
 
                 li{
                     text-decoration: none;
@@ -688,6 +689,28 @@ a.v-btn--fab{
             }
             .socials{
                 flex: 0 1 100%
+            }
+        }
+    }
+}
+
+.how_it_works{
+    // padding: 1.5rem !important;
+
+    .card_text{
+        padding: 1rem 2rem !important;
+
+        ol.list1{
+            margin-bottom: 2rem;
+        }
+
+        ol{
+            line-height: 2rem !important;
+
+            li.list_item{
+                font-size: 1.2rem;
+                font-weight: 300 !important;
+                color: #5a5a5a;
             }
         }
     }

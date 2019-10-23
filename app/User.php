@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,10 +17,12 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone'
+        'name', 'email', 'password', 'phone', 'alt_phone', 'address', 'location_id', 'status'
     ];
 
     protected $with = ['location'];
+
+    protected $appends = ['slug', 'unread_messages', 'user_status', 'join_date'];
 
 
     /**
@@ -47,6 +50,47 @@ class User extends Authenticatable
 
     public function message()
     {
-        return $this->hasMany('App\Message');
+        return $this->hasMany('App\Message', 'sender_id');
+    }
+
+    public function order_summary()
+    {
+        return $this->hasMany('App\OrderSummary');
+    }
+
+    public function getSlugAttribute($value)
+    {
+        $slug = str_slug($this->name);
+
+        return $slug;
+    }
+
+    public function getUnreadMessagesAttribute($value)
+    {
+        return $this->message()->where('status', 0)->count();
+    }
+
+    public function getUserStatusAttribute($value)
+    {
+        if($this->status == 1){
+            return 'Enabled';
+        }
+        return 'Disabled';
+    }
+
+    public function getJoinDateAttribute($value)
+    {
+        $date = Carbon::parse($this->created_at)->toFormattedDateString();
+        return $date;
+    }
+
+    public function charges()
+    {
+        return $this->hasMany('App\Charges');
+    }
+
+    public function special_order()
+    {
+        return $this->hasMany('App\SpecialOrder');
     }
 }

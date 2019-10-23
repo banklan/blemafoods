@@ -48,6 +48,10 @@
                                     </tbody>
                                 </table>
                             </v-card-text>
+                            <v-card-actions class="justify-center">
+                                <!-- <div class="flex-grow-1"></div> -->
+                                <v-btn text color="red" @click.prevent="comfirmEmptyCart = true">Empty Cart</v-btn>
+                            </v-card-actions>
                         </v-card>
                     </v-flex>
                     <v-flex xs12 sm5 class="mt-4 msg_card" v-if="grandTotal">
@@ -82,8 +86,8 @@
                                 <div v-else class="body-1">Proceed to checkout</div>
                             </v-card-title>
                             <v-card-actions class="justify-center my-3">
-                                <v-btn v-if="auth" :disabled="loading" :loading="loading2" class="btn btn_submit" @click.prevent="payOnDel" style="text-decoration:none">Pay on Delivery</v-btn>
-                                <v-btn v-if="auth" :disabled="loading" :loading="loading" class="btn btn_submit" @click.prevent="checkout" style="text-decoration:none">Checkout</v-btn>
+                                <v-btn v-if="auth" :loading="loading2" class="btn btn_submit" @click.prevent="payOnDel" style="text-decoration:none">Pay on Delivery</v-btn>
+                                <v-btn v-if="auth" :loading="loading" class="btn btn_submit" @click="goToCheckOut" style="text-decoration:none">Checkout</v-btn>
                                 <a href="/login" v-if="!auth" class="btn btn_submit">Login to complete order</a>
                             </v-card-actions>
                         </v-card>
@@ -107,6 +111,18 @@
                         </v-card>
                     </v-dialog>
                 </v-row>
+                <v-dialog v-model="comfirmEmptyCart" max-width="350">
+                    <v-card>
+                        <v-card-title>
+                            <div class="subtitle-1">Are you sure you want to empty your cart?</div>
+                        </v-card-title>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn text color="#ff3c38" @click.prevent="comfirmEmptyCart = false">Cancel</v-btn>
+                            <v-btn dark color="#ff3c38" @click.prevent="emptyCart">Yes, empty the cart</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
                 <v-snackbar v-model="orderCompleted" :timeout="5000" top color="#44a80f">
                     Your order has been sent!
                     <v-btn color="white green--text" text @click.prevent="orderCompleted = false">Close</v-btn>
@@ -116,7 +132,6 @@
                     <v-btn color="white green--text" text @click.prevent="updateSuccessfull = false">Close</v-btn>
                 </v-snackbar>
             </v-container>
-            <!-- <div v-for="(item, index) in items" :key="index">{{ item.name }}</div> -->
         </v-content>
     </v-app>
 </template>
@@ -137,7 +152,11 @@ export default {
                 phone: ''
             },
             updating: false,
-            updateSuccessfull: false
+            updateSuccessfull: false,
+            fees: {
+                a: null, b: null, c: null, d: null, e: null
+            },
+            comfirmEmptyCart: false
         }
     },
     computed: {
@@ -155,16 +174,61 @@ export default {
         },
         total(){
             const total = parseFloat(this.itemsCost) + parseFloat(this.servicesCost)
-            return total;
-        },
-        charges(){
-            return this.$store.getters.getCharges
+            if(!total){
+                return 0
+            }else{
+                return total;
+            }
         },
         grandTotal(){
            return parseFloat(this.total) + parseFloat(this.charges)
+        },
+        charges(){
+            if(this.total == 0){
+                return 0;
+            }
+            if(this.total > 10000 && this.total < 500000){
+                var fees = parseFloat(this.fees.a)
+                localStorage.setItem('charges', fees)
+                return fees
+            }
+            if(this.total > 499900 && this.total < 1000000){
+                var fees = this.fees.b
+                localStorage.setItem('charges', fees)
+                return fees
+            }
+            if(this.total > 990000 && this.total < 2000000){
+                var fees = this.fees.c
+                localStorage.setItem('charges', fees)
+                return fees
+            }
+            if(this.total > 1999900 && this.total < 5000000){
+                var fees = this.fees.d
+                localStorage.setItem('charges', fees)
+                return fees
+            }
+            if(this.total >= 5000000){
+                var fees = this.fees.e
+                localStorage.setItem('charges', fees)
+                return fees
+            }
         }
     },
     methods: {
+        goToCheckOut(){
+            // window.localStorage.setItem('grandTotal', this.grandTotal)
+            // window.location.href = '/checkout'
+
+            axios.post('/checkout', {
+                amount: this.grandTotal
+            }).then((res) => {
+                window.location.href = '/checkout'
+            })
+        },
+        emptyCart(){
+            this.$store.commit('empty_cart')
+            this.comfirmEmptyCart = false
+        },
         delItem(index){
             this.items.splice(index, 1)
             this.$store.commit('update_items', this.items)
@@ -178,13 +242,11 @@ export default {
                 this.loading = true
                 // console.log(this.items)
                 axios.post('/checkout', {
-                    order: this.items,
-                    services: this.services,
-                    charges: this.charges,
-                    total: this.grandTotal,
+                    amount: this.grandTotal,
                     message: this.message
                 }).then((res) => {
                     this.loading = false
+                    console.log(res.data)
                     // remove items from localStorage
                     // show snackbar
                     // send to products page
@@ -203,7 +265,7 @@ export default {
                     message: this.message.trim()
                 }).then((res) => {
                     this.orderCompleted = true
-                    this.loading2 = false
+                    // this.loading2 = false
                     localStorage.removeItem('items')
                     localStorage.removeItem('items_cost')
                     localStorage.removeItem('charges')
@@ -220,7 +282,7 @@ export default {
                 setInterval(() => {
                     window.location.href = '/kitchen';
                     // this.$router.push({path: '/kitchen'})
-                }, 3000);
+                }, 2000);
             }
         },
         getContact(){
@@ -254,12 +316,24 @@ export default {
             this.update = {},
             this.updating = false
             this.editDial = false
+        },
+        getOrderCharges(){
+            axios.get('/get_order_charges').then((res)=>{
+                this.fees.a = res.data[0].fee
+                this.fees.b = res.data[1].fee
+                this.fees.c = res.data[2].fee
+                this.fees.d = res.data[3].fee
+                this.fees.e = res.data[4].fee
+                console.log(res.data)
+            })
         }
     },
     mounted() {
         const auth = window.Laravel.auth
         this.auth = auth
         this.getContact()
+        this.getOrderCharges()
+
     },
 }
 </script>

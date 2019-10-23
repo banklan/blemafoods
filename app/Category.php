@@ -22,4 +22,9 @@ class Category extends Model
 
         return $slug;
     }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucwords($value);
+    }
 }

@@ -1,3 +1,7 @@
+<?php
+    use Unicodeveloper\Paystack\Facades\Paystack;
+?>
+
 @extends('layouts.app')
 
 @section('content')

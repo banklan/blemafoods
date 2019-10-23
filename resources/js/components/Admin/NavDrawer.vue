@@ -35,17 +35,18 @@ export default {
         return {
             item: 0,
             items: [
-                {title: 'Orders', icon: 'dashboard', to: ''},
-                {title: 'Users', icon: 'people_outline', to: '/account'},
-                {title: 'Products', icon: 'message', to: '/messages'},
-                {title: 'Services', icon: 'info'},
+                {title: 'Orders', icon: 'dashboard', to: '/admin/orders'},
+                {title: 'Users', icon: 'people_outline', to: '/admin/users'},
+                {title: 'Products', icon: 'message', to: '/admin/products'},
+                {title: 'Messages', icon: 'message', to: '/admin/messages'},
+                {title: 'Categories', icon: 'folder', to: '/admin/categories'},
+                {title: 'Locations', icon: 'folder', to: '/admin/locations'},
+                {title: 'Charges', icon: 'folder', to: '/admin/transaction_charges'},
+                {title: 'Set Charges', icon: 'info', to: '/admin/set_charges'},
+                {title: 'Mails & Contact Messages', icon: 'mail', to: '/admin/enquiries'},
                 {title: 'Payments', icon: 'folder'},
-                {title: 'Categories', icon: 'folder'},
-                {title: 'Locations', icon: 'folder'},
-                {title: 'Charges', icon: 'folder'},
-                {title: 'Settings', icon: 'folder'},
-                {title: 'Messages', icon: 'folder'},
-                {title: 'Special Orders', icon: 'folder'},
+                {title: 'Settings', icon: 'folder', to: '/admin/settings'},
+                {title: 'Special Orders', icon: 'folder', to: '/admin/special_orders'},
             ]
         }
     },

@@ -35,4 +35,14 @@ class Product extends Model
         return $slug;
     }
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucwords($value);
+    }
+
+    public function setDescriptionAttribute($value)
+    {
+        $this->attributes['description'] = ucfirst($value);
+    }
+
 }

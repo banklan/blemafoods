@@ -12,7 +12,7 @@ class Message extends Model
 
     protected $with = ['sender', 'receiver'];
 
-    protected $appends = ['self_owned', 'sender_name', 'time'];
+    protected $appends = ['self_owned', 'sender_name', 'time', 'date'];
 
 
     public function sender()
@@ -27,18 +27,35 @@ class Message extends Model
 
     public function getSelfOwnedAttribute($value)
     {
-        if($this->sender_id === Auth::id()){
-            return true;
+        if(Auth::id() === 1){
+            if($this->sender_id === 1){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            if($this->sender_id === Auth::id()){
+                return true;
+            }
+            return false;
         }
-        return false;
     }
 
     public function getSenderNameAttribute($value)
     {
-        if($this->sender_id === Auth::id()){
-            return 'Me';
+        //create admin to be user 1
+        if(Auth::id() === 1){
+            if($this->sender_id === 1){
+                return 'Me';
+            }else{
+                return $this->sender['name'];
+            }
         }else{
-            return 'Blema';
+            if($this->sender_id === Auth::id()){
+                return 'Me';
+            }else{
+                return 'Blema';
+            }
         }
     }
 
@@ -48,10 +65,14 @@ class Message extends Model
         return $created;
     }
 
+    public function getDateAttribute($value)
+    {
+        $date = Carbon::parse($this->created_at)->toFormattedDateString();
+        return $date;
+    }
+
     public function setMessageAttribute($value)
     {
         $this->attributes['message'] = ucfirst($value);
     }
-
-
 }

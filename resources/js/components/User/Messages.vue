@@ -11,29 +11,23 @@
                 <v-divider></v-divider>
                 <v-row class="ml-5">
                     <v-col cols="12" class="pa-5">
-                        <!-- <v-card min-height="400" elevation="12" class="ml-5 mb-4 pa-5 main_wrap"> -->
-                            <!-- <v-card-title class="justify-center"> -->
-                                <div class="title">Please feel free to send us messages concerning your orders or any general enquiry</div>
-                            <!-- </v-card-title> -->
-                            <v-divider></v-divider>
-                            <!-- <v-card-text> -->
-                                <v-row>
-                                    <v-col cols="12" sm="8">
-                                        <div class="messages" v-chat-scroll="{always: false, smooth: true}">
-                                            <div v-for="(msg, index) in messages" :key="index" class="msg_wrap">
-                                                <div>
-                                                    <span :class="msg.self_owned ? 'self' : 'admins'">{{ msg.sender_name }}</span>: {{ msg.message}}<span class="float-right grey--text lighten-2 time">{{ msg.time }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="message_form mt-4 mb-2">
-                                                <v-textarea v-model="text" rows="2" auto-grow outlined no-resize placeholder="Type messages here..." @keyup.enter="sendMessage"></v-textarea>
-                                                <v-btn class="px-5 mx-5" raised elevation="12" large dark color="#ff383c" :loading="sending" @click.prevent="sendMessage">Send</v-btn>
-                                            </div>
+                        <div class="title">Please feel free to send us messages concerning your orders or any general enquiry</div>
+                        <v-divider></v-divider>
+                        <v-row>
+                            <v-col cols="12" sm="8">
+                                <div class="messages" v-chat-scroll="{always: false, smooth: true}">
+                                    <div v-for="(msg, index) in messages" :key="index" class="msg_wrap">
+                                        <div>
+                                            <span :class="msg.self_owned ? 'self' : 'admins'">{{ msg.sender_name }}</span>: {{ msg.message}}<span class="float-right grey--text lighten-2 time">{{ msg.time }}</span>
                                         </div>
-                                    </v-col>
-                                </v-row>
-                            <!-- </v-card-text> -->
-                        <!-- </v-card> -->
+                                    </div>
+                                    <div class="message_form mt-4 mb-2">
+                                        <v-textarea v-model="text" rows="2" auto-grow outlined no-resize placeholder="Type messages here..." @keyup.enter="sendMessage"></v-textarea>
+                                        <v-btn class="px-5 mx-5" raised elevation="12" large dark color="#ff383c" :loading="sending" @click.prevent="sendMessage">Send</v-btn>
+                                    </div>
+                                </div>
+                            </v-col>
+                        </v-row>
                     </v-col>
                 </v-row>
             </v-col>

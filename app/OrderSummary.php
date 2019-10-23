@@ -13,10 +13,17 @@ class OrderSummary extends Model
 
     protected $appends = ['order_date', 'status', 'date', 'time', 'payment_status'];
 
+    protected $with = ['user'];
+
 
     public function order()
     {
         return $this->hasMany('App\Order');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 
     public function setMessageAttribute($value)
@@ -46,7 +53,7 @@ class OrderSummary extends Model
     public function getStatusAttribute($value)
     {
         if($this->order_status === '1'){
-            return 'Order has been received. Working on it.';
+            return 'Order has been received.';
         }
 
         if($this->order_status === '2'){

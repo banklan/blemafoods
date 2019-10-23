@@ -38,29 +38,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <!-- <v-simple-table dense light min-height="280">
-                                    <thead>
-                                        <tr>
-                                            <th>S/N</th>
-                                            <th>Date</th>
-                                            <th>Order No</th>
-                                            <th>No of Items</th>
-                                            <th>Value</th>
-                                            <th>View</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(order, i) in Orders" :key="i">
-                                            <td>{{ i + 1 }}</td>
-                                            <td>{{ order.date }}</td>
-                                            <td>{{ order.order_id }}</td>
-                                            <td>{{ order.item_count }}</td>
-                                            <td>{{ order.value | price }}</td>
-                                            <td><v-btn text color="primary" :to="{name: 'MyOrder', params: {id: order.id, orderId: order.order_id}}"><v-icon>visibility</v-icon></v-btn></td>
-                                        </tr>
-                                    </tbody>
-                                </v-simple-table> -->
-
                             </div>
                         </v-flex>
                     </v-layout>
@@ -108,7 +85,6 @@ export default {
         text-decoration: none;
         transition-property: box-shadow,opacity;
         white-space: normal;
-        // word-break: break-word;
         border-radius: 6px;
         margin: 15px !important;
 

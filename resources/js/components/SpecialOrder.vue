@@ -22,6 +22,9 @@
                             <div class="subtitle-1 pa-4">
                                 Our Special order form is to help you place orders for any meal or items that is not listed on our app. Kindly fill all fields, and provide extra details on the other details field. We will get back to you swiftly with the order details and cost once you submit the form.
                                 <v-divider></v-divider>
+                                Also note that orders are delivered about 24 hours after they have been confirmed. So clients are
+                                expected to make orders at least 24 hours before they need the order.
+                                <v-divider></v-divider>
                                 After submitting your order, we will do the costing and get back to you via phone or/and email before we proceed. Please note that the cost and charges are to be fully settled before/during delivery
                             </div>
                         </v-card>
@@ -71,7 +74,7 @@
                 </v-layout>
                 <v-snackbar v-model="orderSent" :timeout="12000" top color="#44a80f">
                     Order has been sent. We shall get back to you with the cost of your order and charges shortly.
-                    <v-btn color="coral" flat @click="orderSent = false">Close</v-btn>
+                    <v-btn color="green darken-1" @click="orderSent = false">Close</v-btn>
                 </v-snackbar>
             </v-container>
         </v-content>

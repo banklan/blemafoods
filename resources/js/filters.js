@@ -1,10 +1,17 @@
 import Vue from 'vue';
 
 Vue.filter('price', (value)=>{
-    let amt = parseInt(value/100);
+    let amt = parseFloat(value/100);
     let amount = amt.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits: 2});
     return amount;
 });
+
+//works too
+// Vue.filter('price', (value) =>{
+//     let amt = parseFloat(value/100);
+//     let amount = (amt).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+//     return amount;
+// })
 
 Vue.filter('truncate', (string, value)=>{
     if(string.length > value){

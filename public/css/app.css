@@ -17113,6 +17113,7 @@ a.v-btn--fab:hover {
 .footer .footer_wrapper .contact ul {
   list-style-type: none;
   line-height: 1.8;
+  margin-left: 2.5rem !important;
 }
 
 .footer .footer_wrapper .about ul li,
@@ -17179,5 +17180,23 @@ a.v-btn--fab:hover {
   .footer .footer_wrapper .socials {
     flex: 0 1 100%;
   }
+}
+
+.how_it_works .card_text {
+  padding: 1rem 2rem !important;
+}
+
+.how_it_works .card_text ol.list1 {
+  margin-bottom: 2rem;
+}
+
+.how_it_works .card_text ol {
+  line-height: 2rem !important;
+}
+
+.how_it_works .card_text ol li.list_item {
+  font-size: 1.2rem;
+  font-weight: 300 !important;
+  color: #5a5a5a;
 }
 

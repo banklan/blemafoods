@@ -8,6 +8,8 @@ class Order extends Model
 {
     protected $fillable = ['order_id', 'user_id', 'product_id', 'service_id', 'units'];
 
+    protected $with = ['product'];
+
 
     public function order_summary()
     {

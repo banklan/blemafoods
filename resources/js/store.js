@@ -15,7 +15,7 @@ const itCst = window.localStorage.getItem('items_cost')
 const itemsCost = itCst ? itCst : null
 
 const servCst = window.localStorage.getItem('services_cost')
-const servicesCost = servCst ? servCst : null
+const servicesCost = servCst ? servCst : 0
 
 const token = window.localStorage.getItem('charges')
 const charges = token ? token : null
@@ -33,6 +33,12 @@ export const store = new Vuex.Store({
         auth: auth,
         orders: [],
         loading: false,
+        fees: {},
+        fees1: null,
+        fees2: null,
+        fees3: null,
+        fees4: null,
+        fees5: null,
     },
     getters: {
         getOrders(state){
@@ -55,37 +61,6 @@ export const store = new Vuex.Store({
         getServicesCost(state){
             return state.servicesCost
         },
-        getCharges(state){
-            if(!state.itemsCost){
-                state.charges = 0
-                return 0;
-            }
-            if(state.itemsCost > 10000 && state.itemsCost < 500000){
-                localStorage.setItem('charges', 50000)
-                state.charges = 50000
-                return 50000
-            }
-            if(state.itemsCost > 490000 && state.itemsCost < 1000000){
-                state.charges = 70000
-                localStorage.setItem('charges', 70000)
-                return 70000
-            }
-            if(state.itemsCost > 990000 && state.itemsCost < 2000000){
-                state.charges = 100000
-                localStorage.setItem('charges', 100000)
-                return 100000
-            }
-            if(state.itemsCost > 1900000 && state.itemsCost < 5000000){
-                state.charges = 2000000
-                localStorage.setItem('charges', 200000)
-                return 200000
-            }
-            if(state.itemsCost >= 5000000){
-                state.charges = 5000000
-                localStorage.setItem('charges', 500000)
-                return 500000
-            }
-        },
     },
     actions: {
         getOrders(context){
@@ -94,7 +69,7 @@ export const store = new Vuex.Store({
             }).catch((err) => {
                 console.log(err)
             })
-        }
+        },
     },
     mutations: {
         set_orders(state, payload){
@@ -134,6 +109,14 @@ export const store = new Vuex.Store({
         },
         addServsToCart(state,payload){
             state.specialServices = payload
+        },
+        empty_cart(state, payload){
+            state.items = []
+            state.services = []
+            window.localStorage.removeItem('items')
+            window.localStorage.removeItem('services')
+            window.localStorage.removeItem('charges')
+            window.localStorage.removeItem('items_cost')
         }
     }
 })

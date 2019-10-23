@@ -29,7 +29,6 @@
                                                     </v-col>
                                                     <v-col cols="6">
                                                         <v-btn :disabled="added" text light class="primary--text" @click.prevent="addToCart(product)">Add To Cart</v-btn>
-                                                        <!-- <v-btn :disabled="added" text light class="primary--text" @click.prevent="confirmAdd = true">Add To Cart</v-btn> -->
                                                     </v-col>
                                                 </v-row>
                                             </v-container>
@@ -37,10 +36,7 @@
                                     </v-flex>
                                 </v-layout>
                                 <v-progress-circular indeterminate color="coral" :width="7" :size="70" v-if="!product"></v-progress-circular>
-                                <!-- <v-snackbar v-model="addSuccess" :timeout="4000" top color="#44a80f">
-                                    You have added an item to your cart
-                                    <v-btn color="white green--text" text @click="addSuccess = false">Close</v-btn>
-                                </v-snackbar> -->
+
                             </v-container>
                         </v-card>
                     </v-flex>
