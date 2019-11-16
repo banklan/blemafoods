@@ -53,8 +53,8 @@ class CheckoutController extends Controller
         return response()->json(['message' => 'sent']);
     }
 
-    // public function goCheckOut($amount)
-    // {
-    //     return view('pages.checkout')->withAmount($amount);
-    // }
+    public function checkoutConfirm()
+    {
+        return view('pages.checkout_confirm');
+    }
 }

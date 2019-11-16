@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use App\Charges;
+use App\Payment;
 use Carbon\Carbon;
 use App\OrderSummary;
 use App\SpecialOrder;
@@ -183,5 +184,84 @@ class OrderController extends Controller
 
             return response()->json($orders, 200);
         }
+    }
+
+    public function genOrderIdForPymnt()
+    {
+        //create unique order id that will also be sent to paystack
+        $year= Carbon::now()->format('y');
+        $month = Carbon::now()->format('m');
+        $day = Carbon::now()->format('j');
+        $rand = substr(sha1(mt_rand()), 17, 6);
+        $orderId = $year.$month.$day.$rand;
+
+        return response()->json($orderId, 200);
+    }
+
+    public function saveOrderPayment(Request $request)
+    {
+        $orders = $request->items;
+        $services = $request->services;
+        $user = Auth::id();
+
+        //save each order
+        for($i=0; $i < count($orders); $i++){
+           $order = new Order;
+           $order->order_id = $request->orderId;
+           $order->user_id = $user;
+           $order->product_id = $orders[$i]['id'];
+           $order->units = $orders[$i]['units'];
+
+           $order->save();
+        }
+
+        //save each service
+        for($i=0; $i < count($services); $i++){
+            $order = new Order;
+            $order->order_id = $request->orderId;
+            $order->user_id = $user;
+            $order->service_id = $services[$i]['id'];
+            $order->units = $services[$i]['units'];
+
+            $order->save();
+         }
+
+        // //create order summary
+        $this->validate($request, [
+            'message' => 'max:100'
+        ]);
+
+        $summary = new OrderSummary;
+        $summary->order_id = $request->orderId;
+        $summary->user_id =  $user;
+        $summary->item_count = count($orders);
+        $summary->services_count = count($services);
+        $summary->value = $request->total;
+        $summary->message = $request->message;
+        $summary->order_status = '1';
+        $summary->pymt_mode = 'POL';
+        $summary->pymt_status = 1;
+        $summary->save();
+
+        //store charges
+        $charges = new Charges;
+        $charges->amount = $request->charges;
+        $charges->user_id = $user;
+        $charges->status = 1;
+        $charges->order_id = $request->orderId;
+        $charges->save();
+
+        //store payment info
+        $payment = new Payment;
+        $payment->user_id = $user;
+        $payment->order_id = $request->orderId;
+        $payment->amount = $request->grandTotal;
+        $payment->trx_ref = $request->trxResponse['reference'];
+        $payment->trx_status = $request->trxResponse['status'];
+        $payment->trx_msg = $request->trxResponse['message'];
+        $payment->trx_trans = $request->trxResponse['transaction'];
+        $payment->save();
+
+        return response()->json(['summary' => $summary, 'payment' => $payment, 'charges' => $charges], 200);
     }
 }

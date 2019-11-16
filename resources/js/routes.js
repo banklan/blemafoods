@@ -42,6 +42,8 @@ import AdminSpecialOrderShow from './components/Admin/SpecialOrderShow';
 import AdminSettings from './components/Admin/Settings';
 import AdminEnquiries from './components/Admin/Enquiries';
 import AdminEnquiryMail from './components/Admin/EnquiryMail';
+import paymentSuccessful from './components/PaymentSuccessful';
+import AdminAllTodaysOrders from './components/Admin/AllTodaysOrders';
 
 export default[
     {path: '/', name: 'Welcome', component: Welcome},
@@ -88,4 +90,6 @@ export default[
     {path: '/admin/settings', name: 'AdminSettings', component: AdminSettings},
     {path: '/admin/enquiries', name: 'AdminEnquiries', component: AdminEnquiries},
     {path: '/admin/enquiry/:mail/:slug', name: 'AdminEnquiryMail', component: AdminEnquiryMail},
+    {path: '/payment_successful', name: 'paymentSuccessful', component: paymentSuccessful},
+    {path: '/admin/all_orders_today', name: 'AdminAllTodaysOrders', component: AdminAllTodaysOrders},
 ]

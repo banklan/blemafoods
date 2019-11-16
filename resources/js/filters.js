@@ -21,3 +21,12 @@ Vue.filter('truncate', (string, value)=>{
     }
 });
 
+Vue.filter('pluralize', (int, string) => {
+    if(parseInt(int) < 2){
+        return int + ' ' + string
+    }else{
+        return int + ' '+ string +'s'
+    }
+})
+
+

@@ -62,6 +62,7 @@
       },
       callback: function(response){
           alert('success. transaction ref is ' + response.reference);
+        //   console.log(response)
       },
       onClose: function(){
           alert('window closed');

@@ -42,8 +42,6 @@ use Illuminate\Support\Facades\Auth;
                         <a class="dropdown-item" href="{{ route('toiletries') }}">Toiletries</a>
                         <a class="dropdown-item" href="{{ route('household') }}">Household items</a>
                         <a class="dropdown-item" href="{{ route('groceries') }}">Groceries & Staples</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -53,7 +51,6 @@ use Illuminate\Support\Facades\Auth;
 
                     <div class="dropdown-menu" aria-labelledby="servicesDropdown1">
                         <a class="dropdown-item" href="{{ route('kitchen') }}">Blema Kitchen</a>
-                        <a class="dropdown-item" href="{{ route('services') }}">Services</a>
                         <a class="dropdown-item" href="#">Bakery</a>
                         <a class="dropdown-item" href="#">Fried Snacks</a>
                     </div>

@@ -4,7 +4,7 @@
             <v-container grid-list-sm>
                 <v-layout row wrap class="mb-4">
                     <v-flex xs12 sm6 class="mt-4 cart_card">
-                        <v-card raised elevation="12" light ripple hover min-height="100">
+                        <v-card raised elevation="12" light ripple hover min-height="100" v-if="items.length > 0">
                             <v-card-title class="justify-center">
                                 <div class="body-3">My Cart</div>
                             </v-card-title>
@@ -53,6 +53,16 @@
                                 <v-btn text color="red" @click.prevent="comfirmEmptyCart = true">Empty Cart</v-btn>
                             </v-card-actions>
                         </v-card>
+                         <v-card raised elevation="12" light ripple hover min-height="100" v-else class="pa-5">
+                             <v-card-title>
+                                 <div class="subtitle-1">My Cart</div>
+                             </v-card-title>
+                             <v-card-text>
+                                 <div class="subtitle-1">
+                                     Your cart is empty. You have not added any items to your cart.
+                                 </div>
+                             </v-card-text>
+                         </v-card>
                     </v-flex>
                     <v-flex xs12 sm5 class="mt-4 msg_card" v-if="grandTotal">
                         <v-card raised elevation="12" light ripple hover min-height="150" class="mb-5">
@@ -86,8 +96,9 @@
                                 <div v-else class="body-1">Proceed to checkout</div>
                             </v-card-title>
                             <v-card-actions class="justify-center my-3">
-                                <v-btn v-if="auth" :loading="loading2" class="btn btn_submit" @click.prevent="payOnDel" style="text-decoration:none">Pay on Delivery</v-btn>
+                                <v-btn v-if="auth" :loading="loading2" class="btn btn_submit" @click.prevent="openPodDialog = true" style="text-decoration:none">Pay on Delivery</v-btn>
                                 <v-btn v-if="auth" :loading="loading" class="btn btn_submit" @click="goToCheckOut" style="text-decoration:none">Checkout</v-btn>
+                                <!-- <v-btn v-if="auth" class="btn btn_submit" to="/checkout_confirm">Checkout</v-btn> -->
                                 <a href="/login" v-if="!auth" class="btn btn_submit">Login to complete order</a>
                             </v-card-actions>
                         </v-card>
@@ -120,6 +131,24 @@
                             <v-spacer></v-spacer>
                             <v-btn text color="#ff3c38" @click.prevent="comfirmEmptyCart = false">Cancel</v-btn>
                             <v-btn dark color="#ff3c38" @click.prevent="emptyCart">Yes, empty the cart</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+                <v-dialog v-model="openPodDialog" max-width="450">
+                    <v-card>
+                        <v-card-title class="justify-center">
+                            <div class="subtitle-1">Confirm Pay On Delivery!</div>
+                        </v-card-title>
+                        <v-card-text>
+                            <div class="subtitle-1 darken-2">
+                                You have chosen to pay on delivery. Please ensure you have the cash for payment ready before our delivery personnel arrives.
+                            </div>
+                        </v-card-text>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                            <v-btn text color="#ff3c38" @click.prevent="openPodDialog = false">Cancel</v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn dark color="primary" @click.prevent="payOnDel">Submit Order</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -156,7 +185,8 @@ export default {
             fees: {
                 a: null, b: null, c: null, d: null, e: null
             },
-            comfirmEmptyCart: false
+            comfirmEmptyCart: false,
+            openPodDialog: false
         }
     },
     computed: {
@@ -181,7 +211,9 @@ export default {
             }
         },
         grandTotal(){
-           return parseFloat(this.total) + parseFloat(this.charges)
+           var total = parseFloat(this.total) + parseFloat(this.charges)
+           localStorage.setItem('grand_total', total)
+           return total;
         },
         charges(){
             if(this.total == 0){
@@ -216,13 +248,12 @@ export default {
     },
     methods: {
         goToCheckOut(){
-            // window.localStorage.setItem('grandTotal', this.grandTotal)
-            // window.location.href = '/checkout'
-
-            axios.post('/checkout', {
-                amount: this.grandTotal
-            }).then((res) => {
-                window.location.href = '/checkout'
+            axios.get('/gen_trnx_id_for_payment/').then((res) => {
+                window.localStorage.setItem('message', this.message)
+                window.localStorage.setItem('orderId', res.data)
+                window.location.href="/checkout_confirm"
+            }).catch((err) => {
+                //show a msg that the transaction wasnt suuseeful and shound be redone
             })
         },
         emptyCart(){
@@ -237,22 +268,6 @@ export default {
             this.services.splice(indice, 1)
             this.$store.commit('update_services', this.services)
         },
-        checkout(){
-            if(this.items.length > 0){
-                this.loading = true
-                // console.log(this.items)
-                axios.post('/checkout', {
-                    amount: this.grandTotal,
-                    message: this.message
-                }).then((res) => {
-                    this.loading = false
-                    console.log(res.data)
-                    // remove items from localStorage
-                    // show snackbar
-                    // send to products page
-                })
-            }
-        },
         payOnDel(){
             if(this.items.length > 0){
                 // console.log(this.services)
@@ -265,12 +280,14 @@ export default {
                     message: this.message.trim()
                 }).then((res) => {
                     this.orderCompleted = true
+                    this.openPodDialog = false
                     // this.loading2 = false
                     localStorage.removeItem('items')
                     localStorage.removeItem('items_cost')
                     localStorage.removeItem('charges')
                     localStorage.removeItem('services')
                     localStorage.removeItem('services_cost')
+                    localStorage.removeItem('grand_total')
 
                     // send mail here
                     axios.post(`/send_orderreceived_emails/${res.data.id}`, {
@@ -280,7 +297,7 @@ export default {
                     })
                 })
                 setInterval(() => {
-                    window.location.href = '/kitchen';
+                    window.location.href = '/home';
                     // this.$router.push({path: '/kitchen'})
                 }, 2000);
             }

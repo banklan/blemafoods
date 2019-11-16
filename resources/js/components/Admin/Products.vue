@@ -83,7 +83,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn text color="#ff3c38" @click.prevent="cancelCreate"> Cancel </v-btn>
-                        <v-btn color="#ff3c38" dark @click.prevent="create" :loading="isLoading">Create Product</v-btn>
+                        <v-btn color="primary" dark @click.prevent="create" :loading="isLoading">Create Product</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>

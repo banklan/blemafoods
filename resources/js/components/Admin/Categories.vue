@@ -6,7 +6,6 @@
                 <v-col cols="10" offset="1" md="6" offset-md="0">
                     <div class="title ml-8">Categories Management</div>
                 </v-col>
-
                 <v-col cols="10" offset="1" md="6" offset-md="0">
                     <div class="mt-n5 ml-8">
                         <v-text-field v-model="search" append-icon="search" label="Search for a category" single-line hide-details @keyup="searchCats"></v-text-field>
@@ -50,20 +49,20 @@
                     </div>
                 </v-col>
             </v-row>
-            <v-dialog v-model="editDialog" max-width="500">
+            <v-dialog v-model="editDialog" max-width="450">
                 <v-card>
                     <v-card-title class="justify-center">Edit Category</v-card-title>
                     <v-card-text>
                         <v-text-field label="Name" v-model="editName" required :counter="30" v-validate="'required|max:30'" data-vv-scope="edit" :error-messages="errors.collect('edit.name')" data-vv-name="name"></v-text-field>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn text color="#ff3c38" @click.prevent="editDialog = false"> Cancel </v-btn>
                         <v-spacer></v-spacer>
+                        <v-btn text color="#ff3c38" @click.prevent="editDialog = false"> Cancel </v-btn>
                         <v-btn color="primary" dark @click.prevent="update" :loading="isSaving">Update Category</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-            <v-dialog v-model="createDialog" max-width="550">
+            <v-dialog v-model="createDialog" max-width="450">
                 <v-card>
                     <v-card-title class="subtitle-1 justify-center">Add a new Category</v-card-title>
                     <div v-if="createError" class="mx-3">
@@ -73,8 +72,8 @@
                         <v-text-field label="Name" v-model="newCat" required :counter="30" v-validate="'required|max:30'" :error-messages="errors.collect('name')" data-vv-name="name"></v-text-field>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn text color="#ff3c38" @click.prevent="cancelCreate"> Cancel </v-btn>
                         <v-spacer></v-spacer>
+                        <v-btn text color="#ff3c38" @click.prevent="cancelCreate"> Cancel </v-btn>
                         <v-btn color="primary" dark @click.prevent="create" :loading="isCreating">Save</v-btn>
                     </v-card-actions>
                 </v-card>

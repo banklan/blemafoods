@@ -16,11 +16,21 @@
                 </v-card-actions>
             </v-card>
         </v-flex>
-
-        <v-snackbar v-model="addSuccess" :timeout="4000" top color="#44a80f">
-            You have added an item to your cart
-            <v-btn color="white green--text" flat @click.prevent="addSuccess = false">Close</v-btn>
-        </v-snackbar>
+        <v-dialog v-model="confirmAdd" max-width="350">
+            <v-card class="confirm_dialg">
+                <v-card-title class="subtitle-1 justify-center">Item Added To Cart</v-card-title>
+                <v-card-text>
+                    <div class="subtitle-2 black--text">What do you want to do?</div>
+                </v-card-text>
+                <v-card-actions>
+                    <div class="flex-grow-1"></div>
+                    <v-btn dark color="primary" @click="confirmAdd = false">
+                        Continue Shopping
+                    </v-btn>
+                    <v-btn href="/my_cart" class='btn btn_submit'>Buy Now</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-layout>
 </template>
 
@@ -40,7 +50,7 @@ export default {
                 cost: null
             },
             loading: false,
-            addSuccess: false
+            confirmAdd: false
         }
     },
     methods: {
@@ -54,9 +64,8 @@ export default {
             }
             this.picked.cost = parseFloat(product.price) * this.picked.units
             this.$store.commit('addItemsToCart', this.picked)
-            this.addSuccess = true
-            // this.loading = false
             this.picked = {}
+            this.confirmAdd = true
         }
     },
 }

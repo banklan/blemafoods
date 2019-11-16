@@ -34,7 +34,6 @@
                         <a class="dropdown-item" href="{{ route('toiletries') }}">Toiletries</a>
                         <a class="dropdown-item" href="{{ route('household') }}">Household items</a>
                         <a class="dropdown-item" href="{{ route('groceries') }}">Groceries & Staples</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
 
@@ -45,7 +44,6 @@
 
                     <div class="dropdown-menu" aria-labelledby="servicesDropdown">
                         <a class="dropdown-item" href="{{ route('kitchen') }}">Blema Kitchen</a>
-                        <a class="dropdown-item" href="{{ route('services') }}">Services</a>
                         <a class="dropdown-item" href="#">Bakery</a>
                         <a class="dropdown-item" href="#">Fried Snacks</a>
                     </div>

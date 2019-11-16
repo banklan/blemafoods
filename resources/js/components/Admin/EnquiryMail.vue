@@ -26,8 +26,8 @@
                                     <v-card-text>
                                         <v-simple-table>
                                             <tr>
-                                                <th>Sender:</th>
-                                                <td>{{ message.name }}</td>
+                                                <th width="20%">Sender:</th>
+                                                <td width="80%">{{ message.name }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Date:</th>

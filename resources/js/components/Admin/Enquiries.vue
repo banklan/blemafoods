@@ -25,6 +25,9 @@
                                 </div>
                                 <v-row>
                                     <v-col cols="12" md="10">
+                                        <div class="my-5">
+                                            <div class="subtitle-1"> Unread <v-chip>{{ unreadCount }}</v-chip></div>
+                                        </div>
                                         <v-simple-table fixed-header min-height="300px" class="order_table">
                                             <template v-slot:default v-if="messages">
                                             <thead>
@@ -48,6 +51,20 @@
                                                 <div class="subtitle-1">There are no enquiries/email at the moment</div>
                                             </template>
                                         </v-simple-table>
+                                        <div class="my-5" v-if="showPag">
+                                            <span class="pl-4">
+                                                <v-btn color="primary" @click.prevent="getMessages(pagination.prev_link)" :disabled="!pagination.prev_link">&lt;</v-btn>
+                                                <v-btn color="primary" @click.prevent="getMessages(pagination.next_link)" :disabled="!pagination.next_link">&gt;</v-btn>
+                                            </span>
+                                            <span class="pl-8">
+                                                Page: {{ pagination.current_page }} of {{ pagination.last_page }}
+                                            </span>
+                                        </div>
+                                        <div class="my-3" v-if="searchMode">
+                                            <span class="pl-4">
+                                                <v-btn dark text color="#ff3c38" @click.prevent="clearSearch"><v-icon>sync</v-icon> &nbsp; Clear Filter</v-btn>
+                                            </span>
+                                        </div>
                                     </v-col>
                                 </v-row>
                             </v-col>
@@ -62,13 +79,13 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn text color="#ff3c38" @click.prevent="delDialog = false"> Cancel </v-btn>
-                            <v-btn color="primary" dark @click.prevent="deleteMsg" :loading="loading">Delete Message</v-btn>
+                            <v-btn color="#ff3c38" dark @click.prevent="deleteMsg" :loading="loading">Delete Message</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
                 <v-snackbar v-model="delSuccess" :timeout="4000" top color="#43A047">
                     Enquiry was successfully deleted.
-                    <v-btn color="#388E3C" flat @click="delSuccess = false">Close</v-btn>
+                    <v-btn color="#388E3C" text @click="delSuccess = false">Close</v-btn>
                 </v-snackbar>
             </v-container>
         </v-row>
@@ -85,16 +102,40 @@ export default {
             messageToDel: null,
             msgIndexToDel: null,
             delDialog: false,
-            delSuccess: false
+            delSuccess: false,
+            unreadCount: null,
+            pagination: {},
+            showPag: true,
+            searchMode: false,
+        }
+    },
+    computed:{
+        unread(){
+            axios.get('/unread_enquiries_count').then((res) => {
+                this.unreadCount = res.data
+            })
         }
     },
     methods: {
-        getMessages(){
+        getMessages(pag){
             this.loading = true
-            axios.get('/admin_get_all_mails_enquiries').then((res) => {
+            pag = pag || '/admin_get_all_mails_enquiries'
+            axios.get(pag).then((res) => {
                 this.loading = false
-                this.messages = res.data
-                console.log(res.data)
+                this.messages = res.data.data
+
+                 this.pagination = {
+                    current_page: res.data.current_page,
+                    last_page: res.data.last_page,
+                    from_page: res.data.from,
+                    to_page: res.data.to,
+                    total: res.data.total,
+                    path_page: res.data.path+"?page=",
+                    first_link: res.data.first_page_url,
+                    last_link: res.data.last_page_url,
+                    prev_link: res.data.prev_page_url,
+                    next_link: res.data.next_page_url,
+                }
             })
         },
         searchEnquiry(){
@@ -119,7 +160,6 @@ export default {
         },
         deleteMsg(){
             axios.post(`/admin_delete_contact_enquiry/${this.messageToDel.id}`).then((res) => {
-                console.log(res.data)
                 this.messages.splice(this.msgIndexToDel, 1)
                 this.delDialog = false
                 this.closeDelDialog()
@@ -133,8 +173,9 @@ export default {
         }
     },
     mounted() {
-        // this.getUsers()
         this.getMessages()
+
+        this.unread
     },
 }
 </script>

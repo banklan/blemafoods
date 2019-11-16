@@ -39,10 +39,8 @@ export default {
             item: 0,
             items: [
                 {title: 'My Orders', icon: 'dashboard', to: '/my_orders'},
-                {title: 'Account', icon: 'people_outline', to: '/account'},
                 {title: 'Messages', icon: 'message', to: '/messages', unread: 'unread'},
-                {title: 'Link 1', icon: 'info'},
-                {title: 'Link 2', icon: 'folder'},
+                {title: 'Account', icon: 'people_outline', to: '/account'},
             ],
             unread: null
         }

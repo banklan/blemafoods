@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\ContactMessage;
+use Carbon\CarbonPeriod;
 
 class AdminController extends Controller
 {
@@ -47,17 +48,17 @@ class AdminController extends Controller
     {
         $today = Carbon::now();
 
-        $orders = OrderSummary::where('created_at', $today)->count();
+        $orders = OrderSummary::whereDate('created_at', $today)->count();
 
-        $pending = OrderSummary::where(['order_status'=> 1, 'created_at'=>$today])->count();
+        $pending = OrderSummary::where('order_status', 1)->whereDate('created_at', $today)->count();
 
-        $treated = OrderSummary::where(['order_status'=> 2, 'created_at'=>$today])->count();
+        $treated = OrderSummary::where('order_status', 2)->whereDate('created_at', $today)->count();
 
-        $transit = OrderSummary::where(['order_status'=> 3, 'created_at'=>$today])->count();
+        $transit = OrderSummary::where('order_status', 3)->whereDate('created_at', $today)->count();
 
-        $delivered = OrderSummary::where(['order_status'=> 4, 'created_at'=>$today])->count();
+        $delivered = OrderSummary::where('order_status', 4)->whereDate('created_at', $today)->count();
 
-        $completed = OrderSummary::where(['order_status'=> 7, 'created_at'=>$today])->count();
+        $completed = OrderSummary::where('order_status', 7)->whereDate('created_at', $today)->count();
 
         return response()->json(['orders'=>$orders, 'pending'=>$pending, 'treated'=> $treated, 'transit'=> $transit, 'delivered' => $delivered, 'completed' => $completed, 'message' => 200]);
     }
@@ -870,7 +871,7 @@ class AdminController extends Controller
 
     public function getMailsEnquiries()
     {
-        $mails = ContactMessage::latest()->get();
+        $mails = ContactMessage::latest()->paginate(10);
 
         return response()->json($mails, 200);
     }
@@ -911,5 +912,75 @@ class AdminController extends Controller
         $mail->delete();
 
         return response()->json(['message' => 'deleted'], 200);
+    }
+
+    public function getUnreadCount()
+    {
+        $count = ContactMessage::where('status', 0)->count();
+
+        return response()->json($count, 200);
+    }
+
+    public function getUnreadChats()
+    {
+        $msgs = Message::where('status', 0)->count();
+
+        return response()->json($msgs, 200);
+    }
+
+    public function getTodaysOrdersCounts()
+    {
+        $count = OrderSummary::whereDate('created_at', Carbon::today())->count();
+
+        return response()->json($count, 200);
+    }
+
+    public function getTodaysOrders()
+    {
+        $today = Carbon::today();
+
+        $orders = OrderSummary::whereDate('created_at', $today)->get();
+
+        return response()->json($orders, 200);
+    }
+
+    public function getSpecialOrdersCount()
+    {
+        $today = Carbon::today();
+        $count = SpecialOrder::whereDate('created_at', $today)->count();
+
+        return response()->json($count, 200);
+    }
+
+    public function getSalesPeriod(){
+        $today = Carbon::today()->format('d-m-Y');
+        $yesterday = Carbon::yesterday()->format('d-m-Y');
+        $day_before = Carbon::now()->subDays(2)->format('d-m-Y');
+        $three_days = Carbon::now()->subDays(3)->format('d-m-Y');
+        $four_days = Carbon::now()->subDays(4)->format('d-m-Y');
+
+        return response()->json(['0' => $today, '1' => $yesterday, '2' => $day_before, '3' => $three_days, '4' => $four_days]);
+    }
+    public function getSales()
+    {
+        $todays = OrderSummary::whereDate('created_at', Carbon::today())->count();
+        $yesterdays = OrderSummary::whereDate('created_at', Carbon::yesterday())->count();
+        $day_befores = OrderSummary::whereDate('created_at', Carbon::now()->subDays(2))->count();
+        $threedays = OrderSummary::whereDate('created_at', Carbon::now()->subDays(3))->count();
+        $fourdays = OrderSummary::whereDate('created_at', Carbon::now()->subDays(4))->count();
+
+        return response()->json(['0' => $todays, '1' => $yesterdays, '2' => $day_befores, '3' => $threedays, '4' => $fourdays]);
+    }
+
+    public function delConversations(Request $req)
+    {
+        $user = intval($req->user);
+        $convs = Message::where('sender_id', $user)->orWhere('receiver_id', $user)->get();
+
+        foreach($convs as $conv){
+            $conv->delete();
+        }
+
+        return response()->json(['message' => 'deleted']);
     }
 }

@@ -50,20 +50,20 @@
                     </div>
                 </v-col>
             </v-row>
-            <v-dialog v-model="editDialog" max-width="500">
+            <v-dialog v-model="editDialog" max-width="450">
                 <v-card>
                     <v-card-title class="justify-center">Edit Location</v-card-title>
                     <v-card-text>
                         <v-text-field label="Name" v-model="editName" required :counter="30" v-validate="'required|max:30'" data-vv-scope="edit" :error-messages="errors.collect('edit.name')" data-vv-name="name"></v-text-field>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn text color="#ff3c38" @click.prevent="editDialog = false"> Cancel </v-btn>
                         <v-spacer></v-spacer>
+                        <v-btn text color="#ff3c38" @click.prevent="editDialog = false"> Cancel </v-btn>
                         <v-btn color="primary" dark @click.prevent="update" :loading="isSaving">Update Location</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-            <v-dialog v-model="createDialog" max-width="550">
+            <v-dialog v-model="createDialog" max-width="450">
                 <v-card>
                     <v-card-title class="subtitle-1 justify-center">Add a new Location</v-card-title>
                     <div v-if="createError" class="mx-3">
@@ -73,8 +73,8 @@
                         <v-text-field label="Name" v-model="newLoc" required :counter="30" v-validate="'required|max:30'" :error-messages="errors.collect('name')" data-vv-name="name"></v-text-field>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn text color="#ff3c38" @click.prevent="cancelCreate"> Cancel </v-btn>
                         <v-spacer></v-spacer>
+                        <v-btn text color="#ff3c38" @click.prevent="cancelCreate"> Cancel </v-btn>
                         <v-btn color="primary" dark @click.prevent="create" :loading="isCreating">Save</v-btn>
                     </v-card-actions>
                 </v-card>

@@ -14,7 +14,7 @@
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap class="px-3" v-if="products.length">
-                    <v-flex xs12 sm6 md4 v-for="product in products" :key="product.id" class="mb-1">
+                    <v-flex xs12 sm6 md3 v-for="product in products" :key="product.id" class="mb-1">
                         <soup-card :product="product"></soup-card>
                     </v-flex>
                     <v-flex xs12 class="my-4">

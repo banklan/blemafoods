@@ -58,7 +58,8 @@ Vue.component('nav-drawer-admin', require('./components/Admin/NavDrawer.vue').de
 Vue.component('contact-us', require('./components/ContactUs.vue').default);
 Vue.component('about-us', require('./components/AboutUs.vue').default);
 Vue.component('how-it-works', require('./components/HowItWorks.vue').default);
-// Vue.component('continue-shopping-dialog', require('./components/User/ContinueShopping.vue').default);
+Vue.component('confirm-checkout', require('./components/CheckoutConfirm.vue').default);
+Vue.component('terms-conditions', require('./components/TermsAndCondtions.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

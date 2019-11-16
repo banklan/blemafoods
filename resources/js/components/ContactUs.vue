@@ -56,19 +56,35 @@ export default {
         sendMessage(){
             this.$validator.validateAll().then((isValid) =>{
                 if(isValid){
+                    this.isSending = true
                     axios.post('/send_message_contact', {
                         message: this.contact
                     }).then((res) => {
                         this.isSending = false
                         console.log(res.data)
                         this.messageSent = true
-                        this.successMsg = "Thanks for contacting us. Your message has been sent. We will reply to you shortly."
+                        this.successMsg = "Thanks for contacting us. Your message has been sent. We will reply you shortly."
+                        this.resetFormValidation()
+                        //send email
+                        this.sendEmail(res.data.id)
                     }).catch((err) => {
                         this.isSending = false
                         this.sentError = 'Message sending failed. Please try again later.'
                     })
                 }
             })
+        },
+        sendEmail(mail){
+            axios.post('/send_enquiry_email', {
+                msg: mail
+            }).then((resp) =>{
+                console.log(resp.data)
+            }).catch((err) => {
+                setInterval(this.sendEmail, 120000)
+            })
+        },
+        resetFormValidation(){
+            this.$validator.reset()
         }
     },
 }

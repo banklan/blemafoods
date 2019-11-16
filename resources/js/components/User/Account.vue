@@ -192,7 +192,7 @@ export default {
                         this.pswdChangedSuccess = true
                     })
                 }else{
-                    console.log("failed validation")
+                    // console.log("failed validation")
                 }
              })
         }

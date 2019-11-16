@@ -41,8 +41,6 @@
                                             <v-text-field label="What are you ordering?" v-model="order.name" :counter="50" placeholder="Example: Bitter leaf soup with goat meat" required v-validate="'required|max:50'" :error-messages="errors.collect('name')" data-vv-name="name"></v-text-field>
                                             <v-textarea rows="2" v-model="order.details" auto-grow :counter="300" no-resize label="Details of order" placeholder="Full details of requirements" required v-validate="'required|max:300'" :error-messages="errors.collect('details')" data-vv-name="details"></v-textarea>
                                             <v-text-field label="Units" v-model="order.units" :counter="20" placeholder="Example: 1 pot" required v-validate="'required|max:20'" :error-messages="errors.collect('unit')" data-vv-name="unit"></v-text-field>
-                                            <!-- <div class="subtitle-1 grey--text">Delivery date</div> -->
-                                            <!-- <v-date-picker label="Delivery date" class="my-4" next-icon v-model="order.delDate" color="#15C5C5"></v-date-picker> -->
                                             <v-menu ref="menu" v-model="menu" :close-on-content-click="false" return-value.sync="today" transition="scale-transition" offset-y>
                                                 <template v-slot:activator="{ on }">
                                                     <v-text-field v-model="order.delDate" label="Delivery Date" prepend-icon="event" readonly v-on="on"></v-text-field>
@@ -76,6 +74,10 @@
                     Order has been sent. We shall get back to you with the cost of your order and charges shortly.
                     <v-btn color="green darken-1" @click="orderSent = false">Close</v-btn>
                 </v-snackbar>
+                <v-snackbar v-model="agreeTermsMustConfirm" :timeout="12000" top color="blue lighten-1">
+                    You must agree to our terms to proceed.
+                    <v-btn color="blue darken-1" @click="agreeTermsMustConfirm = false">Close</v-btn>
+                </v-snackbar>
             </v-container>
         </v-content>
     </v-app>
@@ -98,7 +100,8 @@ export default {
             menu2: false,
             loading: false,
             agreeTerms: false,
-            orderSent: false
+            orderSent: false,
+            agreeTermsMustConfirm: false
         }
     },
     methods: {
@@ -109,7 +112,6 @@ export default {
             })
         },
         submitOrder(){
-            // console.log(this.order)
             this.$validator.validateAll().then((isValid) =>{
                 if(isValid && this.agreeTerms == true){
                     this.loading = true
@@ -120,6 +122,8 @@ export default {
                         this.loading = false
                         this.orderSent = true
                     })
+                }else{
+                    this.agreeTermsMustConfirm = true
                 }
             })
         },

@@ -60,7 +60,7 @@ export default {
                 axios.post('/post_user_messages', {
                     message: this.text.trim()
                 }).then((res) => {
-                    console.log(res.data)
+                    // console.log(res.data)
                 })
                 this.text = ''
             }
@@ -68,13 +68,19 @@ export default {
         getMessages(){
             //get messages and reload page
             axios.get('/get_user_messages').then((res)=>{
-                console.log(res.data);
+                // console.log(res.data);
                 this.messages = res.data
+            })
+        },
+        resetUnread(){
+            axios.get('/reset_unread_messages').then((res) => {
+                // console.log(res.data)
             })
         }
     },
     mounted() {
         this.getMessages()
+        this.resetUnread()
     },
 }
 </script>

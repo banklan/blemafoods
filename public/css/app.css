@@ -17092,7 +17092,6 @@ a.v-btn--fab:hover {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   flex-wrap: wrap;
   color: #fff;
   padding: 1.5rem 2rem;
@@ -17134,6 +17133,7 @@ a.v-btn--fab:hover {
 
 .footer .footer_wrapper .socials {
   flex: 0 1 32%;
+  align-self: center;
 }
 
 .footer .footer_wrapper .socials a .fab {
@@ -17180,6 +17180,15 @@ a.v-btn--fab:hover {
   .footer .footer_wrapper .socials {
     flex: 0 1 100%;
   }
+}
+
+.footer .footer_base {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #e8e8e8;
+  border-top: 1px solid #717171;
+  padding: 20px;
 }
 
 .how_it_works .card_text {

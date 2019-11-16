@@ -48,4 +48,19 @@ class MessageController extends Controller
 
         return response()->json($unreads, 200);
     }
+
+    public function resetUnreadMsgs()
+    {
+        $user = Auth::id();
+
+        $unreads = Message::where(['receiver_id' => $user, 'status' => 0])->get();
+
+        foreach ($unreads as $unread) {
+            $unread->update([
+                $unread->status = 1
+            ]);
+        }
+
+        return response()->json($unreads, 200);
+    }
 }

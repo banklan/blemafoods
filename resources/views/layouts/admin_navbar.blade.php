@@ -16,7 +16,7 @@
             <ul class="navbar-nav ml-auto">
                 @if(Auth::guard('admin')->check())
                     <li class="nav-item {{ Route::currentRouteNamed('home') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('admin.home') }}">Dashboard</a>
+                        <a class="nav-link" href="{{ route('admin.home') }}">Admin Dashboard</a>
                     </li>
                 @endif
 

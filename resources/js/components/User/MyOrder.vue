@@ -6,14 +6,14 @@
             </v-flex>
             <v-flex xs10 sm11>
                 <v-container grid-list-xs>
-                    <v-layout row wrap>
-                        <v-flex xs6>
+                    <v-row>
+                        <v-col cols="4" md="3">
                             <v-btn color="#ff3c38" dark raised rounded ripple @click.prevent="$router.go(-1)"><v-icon left>arrow_left</v-icon>Back</v-btn>
-                        </v-flex>
-                        <v-flex xs6>
+                        </v-col>
+                        <v-col cols="8" md="9">
                             <div class="title">My Order - {{ orderId }}</div>
-                        </v-flex>
-                    </v-layout>
+                        </v-col>
+                    </v-row>
                     <v-divider></v-divider>
                     <v-layout row wrap justify-center>
                         <v-flex xs12 md5>
@@ -128,7 +128,7 @@ export default {
             axios.get(`/get_userorders_byorder_id/${this.orderId}`).then((res) => {
                 this.loading = false
                 this.orders = res.data
-                console.log(res.data);
+                // console.log(res.data);
 
                 res.data.forEach(item => {
                     if(item.product_id){

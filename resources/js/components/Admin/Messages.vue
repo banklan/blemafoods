@@ -8,7 +8,7 @@
                         <v-row>
                             <v-col cols="12" sm="6">
                                 <div class="title">
-                                    Messages
+                                    Messages - Chats
                                 </div>
                             </v-col>
                             <v-col cols="12" sm="6">
@@ -31,14 +31,14 @@
                                                 <tr>
                                                     <th class="text-left">User</th>
                                                     <th class="text-left">Unread Messages</th>
-                                                    <th class="text-left">View Conversation</th>
+                                                    <th class="text-left">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="user in users" :key="user.id">
+                                                <tr v-for="(user, index) in users" :key="user.id">
                                                     <td>{{ user.name }}</td>
                                                     <td><v-chip dark color="blue lighten-2">{{ user.unread_messages }}</v-chip></td>
-                                                    <td><v-btn small dark color="primary" :to="{name: 'AdminMessage', params:{userId: user.id, userSlug: user.slug}}"><v-icon>mail_outline</v-icon></v-btn></td>
+                                                    <td><v-btn small dark color="primary" :to="{name: 'AdminMessage', params:{userId: user.id, userSlug: user.slug}}"><v-icon>mail_outline</v-icon></v-btn>&nbsp; <v-btn small dark color="#ff3c38" @click="confirmDel(user, index)"><v-icon>delete_forever</v-icon></v-btn></td>
                                                  </tr>
                                             </tbody>
                                             </template>
@@ -49,6 +49,19 @@
                         </v-row>
                     </v-col>
                 </v-row>
+                <v-dialog v-model="confDelDialog" max-width="500">
+                    <v-card class="pa-3" v-if="userMsgToDelete">
+                        <v-card-title class="justify-center">
+                            <div class="subtitle-2">Do you want to delete all messages between you and {{ userMsgToDelete.name }}</div>
+                        </v-card-title>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn text light color="#ff3c38" @click="confDelDialog = false">Cancel</v-btn>
+                            <v-btn light color="primary" @click="deleteMsgs" :loading="isLoading">Yes, Delete</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-container>
         </v-row>
     </v-app>
@@ -58,17 +71,19 @@
 export default {
     data() {
         return {
-            loading: false,
+            isLoading: false,
             messages: [],
             search: '',
-            users: []
+            users: [],
+            confDelDialog: false,
+            userMsgToDelete: null,
+            indexToDelete: null
         }
     },
     methods: {
         getUsers(){
             axios.get('/admin_get_users').then((res) => {
                 this.users = res.data
-                // console.log(res.data);
             })
         },
         getMessages(){
@@ -76,7 +91,6 @@ export default {
             axios.get('/admin_get_all_messages').then((res) => {
                 this.loading = false
                 this.messages = res.data
-                // console.log(res.data)
             })
         },
         searchUsers(){
@@ -91,6 +105,21 @@ export default {
         toLower(str){
              return str.replace(/\w\S*/g, function(txt){
                 return txt.toLowerCase();
+            })
+        },
+        confirmDel(user, index){
+            this.confDelDialog = true
+            this.userMsgToDelete = user
+            this.indexToDelete = index
+        },
+        deleteMsgs(){
+            this.isLoading = true
+            let vm = this
+            axios.post('/admin_delete_conversations', {
+                user: vm.userMsgToDelete.id
+            }).then((res)=>{console.log(res.data)
+                vm.isLoading = false
+                vm.confDelDialog = false
             })
         }
     },

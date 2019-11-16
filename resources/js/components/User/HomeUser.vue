@@ -146,7 +146,7 @@ export default {
             axios.get('/get_last_five_orders').then((res) => {
                 this.loadingFour = false
                 this.lastFourOrders = res.data
-                console.log(res.data)
+                // console.log(res.data)
             })
         },
         getPendingOrders(){
@@ -154,7 +154,6 @@ export default {
             axios.get('/get_pending_orders').then((res) => {
                 this.loading = false
                 this.pendings = res.data
-                // console.log(res.data)
             })
         },
     },

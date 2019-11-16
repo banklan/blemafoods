@@ -23,15 +23,17 @@ Route::get('/my_orders', 'HomeController@index');
 Route::get('/my_order/{order}', 'HomeController@index');
 Route::get('/account', 'HomeController@index');
 Route::get('/messages', 'HomeController@index');
+Route::get('/payment_successful', 'HomeController@index');
 
 // Route::get('/checkout', 'HomeController@checkout');
 Route::get('/checkout', 'CheckoutController@checkout')->name('checkout');
 Route::post('/checkout', 'CheckoutController@checkoutPost');
 
+
 Route::get('/contact_us', 'PagesController@contactUs')->name('contact_us');
 Route::get('/about_us', 'PagesController@aboutUs')->name('about_us');
 Route::get('/how_it_works', 'PagesController@howItWorks')->name('how_it_works');
-// Route::get('/how_to_order', 'PagesController@howItWorks')->name('how');
+Route::get('/terms_conditions', 'PagesController@termsAndConditions')->name('terms');
 
 //products routes
 Route::get('/raw_foodstuffs', 'ProductPageController@getFoodStuff')->name('foodstuff');
@@ -89,6 +91,8 @@ Route::get('/get_products_categories/{id}', 'ProductController@getProductsByCats
 Route::post('/post_special_orders', 'OrderController@sendSpecialOrder');
 Route::get('/get_services', 'ServicesController@getServices');
 Route::post('/pay_ondelivery', 'OrderController@payOnDelivery');
+Route::get('/gen_trnx_id_for_payment', 'OrderController@genOrderIdForPymnt');
+Route::post('/checkout_save', 'OrderController@saveOrderPayment');
 Route::post('/send_orderreceived_emails/{id}', 'OrderController@sendOrderReceivedEmails');
 Route::get('/get_pending_orders', 'OrderController@getUserPendingOrders');
 Route::get('/get_all_orders_for_user', 'OrderController@getUserOrders');
@@ -108,6 +112,8 @@ Route::get('/get_user_messages', 'MessageController@getMessages');
 Route::get('/get_users_unread_msgs', 'MessageController@getUnreadMessages');
 Route::get('/get_order_charges', 'ChargesController@getCharges');
 Route::post('/send_message_contact', 'PagesController@sendMessage');
+Route::post('/send_enquiry_email', 'PagesController@sendEnquiryEmail');
+Route::get('/reset_unread_messages', 'MessageController@resetUnreadMsgs');
 
 //admin routes
 Route::prefix('admin')->group(function(){
@@ -137,6 +143,7 @@ Route::prefix('admin')->group(function(){
     Route::get('/settings', 'AdminController@index');
     Route::get('/enquiries', 'AdminController@index');
     Route::get('/enquiry/{mail}/{slug}', 'AdminController@index');
+    Route::get('/all_orders_today', 'AdminController@index');
 
     Route::post('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
 });
@@ -214,7 +221,16 @@ Route::get('/admin_get_all_mails_enquiries', 'AdminController@getMailsEnquiries'
 Route::get('/admin_get_enquiry/{mail}', 'AdminController@getMail');
 Route::get('/admin_change_msg_status/{mail}', 'AdminController@readEnquiry');
 Route::post('/admin_delete_contact_enquiry/{id}', 'AdminController@delEnquiry');
+Route::get('/unread_enquiries_count', 'AdminController@getUnreadCount');
+Route::get('/admin_get_unread_chats', 'AdminController@getUnreadChats');
+Route::get('/admin_get_todays_orders_counts', 'AdminController@getTodaysOrdersCounts');
+Route::get('/admin_get_todays_orders', 'AdminController@getTodaysOrders');
+Route::get('/admin_get_special_orders_count', 'AdminController@getSpecialOrdersCount');
+Route::get('/admin_get_sales', 'AdminController@getSales');
+Route::get('/admin_get_sales_period', 'AdminController@getSalesPeriod');
+Route::post('/admin_delete_conversations', 'AdminController@delConversations');
 
+Route::get('/checkout_confirm', 'CheckoutController@checkoutConfirm');
 
 // paystack apis
 Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
