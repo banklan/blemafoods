@@ -21,7 +21,7 @@ class AddColsToUsers extends Migration
             $table->string('area_code')->after('location_id')->nullable();
             $table->boolean('status')->after('area_code')->default(1);
 
-            $table->foreign('location_id')->references('id')->on('locations');
+            // $table->foreign('location_id')->references('id')->on('locations');
         });
     }
 
