@@ -13,12 +13,14 @@ class DropUserIdColInMessages extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::table('messages', function (Blueprint $table) {
             $table->dropColumn('user_id');
             $table->bigInteger('sender_id')->unsigned();
 
             $table->foreign('sender_id')->references('id')->on('users');
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
