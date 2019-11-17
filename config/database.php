@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Str;
 
-$url = parse_url(getenv('DATABASE_URL'));
-$host = $url['host']?? null;
-$username = $url['user'] ?? null;
-$password = $url['pass'] ?? null;
-$database = substr($url['path'], 1) ?? null;
+// $url = parse_url(getenv('DATABASE_URL'));
+// $host = $url['host']?? null;
+// $username = $url['user'] ?? null;
+// $password = $url['pass'] ?? null;
+// $database = substr($url['path'], 1) ?? null;
 
 return [
 
@@ -22,7 +22,7 @@ return [
     */
 
     // 'default' => env('DB_CONNECTION', 'mysql'),
-    'default' => env('DB_CONNECTION', 'pgsql_prod'),
+    'default' => env('DB_CONNECTION', 'mysql_db4free'),
 
     /*
     |--------------------------------------------------------------------------
@@ -70,6 +70,21 @@ return [
             ]) : [],
         ],
 
+        'mysql_db4free' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', 'db4free.net'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'blemafoods'),
+            'username' => env('DB_USERNAME', 'blemafoods'),
+            'password' => env('DB_PASSWORD', 'blemafoods123'),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
@@ -85,16 +100,16 @@ return [
             'sslmode' => 'prefer',
         ],
 
-        'pgsql_prod' => [
-            'driver' => 'pgsql',
-            'host' => $host,
-            'database' => $database,
-            'username' => $username,
-            'password' => $password,
-            'charset' => 'utf8',
-            'prefix' => '',
-            'schema' => 'public',
-        ],
+        // 'pgsql_prod' => [
+        //     'driver' => 'pgsql',
+        //     'host' => $host,
+        //     'database' => $database,
+        //     'username' => $username,
+        //     'password' => $password,
+        //     'charset' => 'utf8',
+        //     'prefix' => '',
+        //     'schema' => 'public',
+        // ],
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
