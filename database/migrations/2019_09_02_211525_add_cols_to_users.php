@@ -17,7 +17,7 @@ class AddColsToUsers extends Migration
             $table->string('phone')->after('email');
             $table->string('alt_phone')->after('phone')->nullable();
             $table->string('address')->after('alt_phone');
-            $table->integer('location_id')->after('address');
+            $table->bigInteger('location_id')->after('address');
             $table->string('area_code')->after('location_id')->nullable();
             $table->boolean('status')->after('area_code')->default(1);
 

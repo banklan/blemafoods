@@ -16,7 +16,7 @@ class CreateOrderSummariesTable extends Migration
         Schema::create('order_summaries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('order_id');
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->integer('item_count')->unsigned()->nullable();
             $table->integer('services_count')->unsigned()->nullable();
             $table->string('value');

@@ -16,10 +16,10 @@ class CreateOrderTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('order_id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('product_id')->unsigned()->nullable();
-            $table->integer('service_id')->unsigned()->nullable();
-            $table->integer('units')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('product_id')->unsigned()->nullable();
+            $table->bigInteger('service_id')->unsigned()->nullable();
+            $table->bigInteger('units')->unsigned();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

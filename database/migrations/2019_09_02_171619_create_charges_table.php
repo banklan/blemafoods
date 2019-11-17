@@ -17,7 +17,7 @@ class CreateChargesTable extends Migration
             $table->bigIncrements('id');
             $table->string('order_id');
             $table->string('amount');
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

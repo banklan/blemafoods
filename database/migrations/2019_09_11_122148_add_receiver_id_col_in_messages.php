@@ -14,7 +14,7 @@ class AddReceiverIdColInMessages extends Migration
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->integer('receiver_id')->unsigned()->after('sender_id');
+            $table->bigInteger('receiver_id')->unsigned()->after('sender_id');
 
             $table->foreign('receiver_id')->references('id')->on('users');
         });

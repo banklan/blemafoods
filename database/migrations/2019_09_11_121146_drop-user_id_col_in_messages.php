@@ -15,7 +15,7 @@ class DropUserIdColInMessages extends Migration
     {
         Schema::table('messages', function (Blueprint $table) {
             $table->dropColumn('user_id');
-            $table->integer('sender_id')->unsigned();
+            $table->bigInteger('sender_id')->unsigned();
 
             $table->foreign('sender_id')->references('id')->on('users');
         });

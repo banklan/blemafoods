@@ -16,9 +16,9 @@ class CreateOrderSummaryTable extends Migration
         Schema::create('orders_summaries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('order_id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('item_count')->unsigned()->nullable();
-            $table->integer('services_count')->unsigned()->nullable();
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('item_count')->unsigned()->nullable();
+            $table->bigInteger('services_count')->unsigned()->nullable();
             $table->string('value');
             $table->string('message')->nullable();
             $table->string('order_status');
