@@ -13,6 +13,7 @@ class CreateSpecialOrdersTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('special_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('order_no');
@@ -24,8 +25,9 @@ class CreateSpecialOrdersTable extends Migration
             $table->time('del_time');
             $table->timestamps();
 
-            // $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -35,6 +37,8 @@ class CreateSpecialOrdersTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('special_orders');
+        Schema::enableForeignKeyConstraints();
     }
 }
