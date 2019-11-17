@@ -17,7 +17,7 @@ class CreateSpecialOrdersTable extends Migration
         Schema::create('special_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('order_no');
-            $table->integer('user_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->string('request');
             $table->text('details');
             $table->string('units');
