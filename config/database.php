@@ -87,7 +87,7 @@ return [
 
         'pgsql_prod' => [
             'driver' => 'pgsql',
-            'host' => $host,,
+            'host' => $host,
             'database' => $database,
             'username' => $username,
             'password' => $password,
