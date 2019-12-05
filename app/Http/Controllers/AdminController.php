@@ -15,6 +15,8 @@ use App\OrderFee;
 use Carbon\Carbon;
 use App\OrderSummary;
 use App\SpecialOrder;
+use App\ContactMessage;
+use Carbon\CarbonPeriod;
 use App\Mail\WelcomeToBlema;
 use Illuminate\Http\Request;
 use App\Mail\SpecialOrderCost;
@@ -22,8 +24,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\ContactMessage;
-use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -93,11 +94,16 @@ class AdminController extends Controller
 
     public function getOrder($order)
     {
-        // $summary = OrderSummary::where('order_id', $order)->first();
-
-        $orders = Order::where('order_id', $order)->get();
+        $orders = Order::where(['service_id' => null, 'order_id' => $order])->get();
 
         return response()->json($orders, 200);
+    }
+
+    public function getOrderServices($order)
+    {
+        $services = Order::where(['product_id' => null, 'order_id' => $order])->get();
+
+        return response()->json($services->load('service'), 200);
     }
 
     public function getOrderSummary($id)
@@ -982,5 +988,6 @@ class AdminController extends Controller
         }
 
         return response()->json(['message' => 'deleted']);
+        // Storage::
     }
 }

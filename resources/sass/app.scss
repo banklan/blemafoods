@@ -726,3 +726,33 @@ a.v-btn--fab{
         }
     }
 }
+.auth_card{
+    margin: 2rem auto;
+
+    .card-header{
+        background:$pry-col !important;
+        color: #fff;
+        font-size: 17px;
+        font-weight: 300 !important
+    }
+
+    .btn-auth{
+        margin-top: -15px !important;
+        border:1px solid $pry-col-light;
+        color: #fff !important;
+        background-color: $pry-col !important;
+        border-radius: 6px;
+        font-weight: 300 !important;
+        width: 60%;
+        padding: 8px 12px;
+        font-size: 15px !important;
+        transition: all .4s;
+
+        &:hover{
+            background: transparent !important;
+            cursor: pointer;
+            color: $pry-col !important;
+            border: 1px solid $pry-col;
+        }
+    }
+}

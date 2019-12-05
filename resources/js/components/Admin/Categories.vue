@@ -179,6 +179,7 @@ export default {
         cancelCreate(){
             this.$validator.reset()
             this.createDialog = false
+            this.newCat = ''
         },
         delCat(cat, index){
             this.catToDelete = cat

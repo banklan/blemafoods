@@ -86,7 +86,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Product ID</th>
+                                            <th>Prod ID</th>
                                             <th>Product</th>
                                             <th>Units</th>
                                             <th>Unit Price(&#8358;)</th>
@@ -106,6 +106,32 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="mt-5" v-if="orderServices.length > 0">
+                                    <div class="subtitle-1 text-center py-3">Services</div>
+                                    <table class="table table-responsive table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Serv ID</th>
+                                                <th>Service</th>
+                                                <th>Units</th>
+                                                <th>Unit Price(&#8358;)</th>
+                                                <th>Total Price(&#8358;)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(item, index) in orderServices" :key="index">
+                                                <td width="10%">{{ index + 1 }}</td>
+                                                <td width="10%">{{ item.service_id }}</td>
+                                                <td>{{ item.service && item.service.name }}</td>
+                                                <td>{{ item.units }}</td>
+                                                <td>{{ item.service && item.service.price | price }}</td>
+                                                <td>{{ item.cost | price }}</td>
+                                                <!-- <td><v-btn dark text small color="#ff3c38" @click.prevent="delOrder(item, index)"><v-icon>delete_forever</v-icon></v-btn></td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </v-card>
                         </v-col>
                         <v-col cols="12" sm="6">
@@ -211,7 +237,8 @@ export default {
             OrderHistory: [],
             orderAction: false,
             message: '',
-
+            ServiceLoading: false,
+            orderServices: []
         }
     },
     computed: {
@@ -241,12 +268,24 @@ export default {
                 });
             })
         },
+        getServices(){
+            this.ServiceLoading = true
+            axios.get(`/admin_get_order_services/${this.order}`).then((res) => {
+                this.ServiceLoading = false
+                this.orderServices = res.data
+
+                // console.log(res.data)
+                this.orderServices.forEach(item => {
+                    item.cost = item.units * item.service.price
+                });
+            })
+        },
         getSummary(){
             // this.loading2 = true
             axios.get(`/admin_get_summary/${this.$route.params.id}`).then((res) => {
                 // this.loading2 = false
                 this.summary = res.data
-                console.log(res.data);
+                // console.log(res.data);
                 this.user = res.data.user
                 this.getOrderHistory()
             })
@@ -276,7 +315,7 @@ export default {
             axios.post('/admin_order_actions/' + this.$route.params.id, {
                 status: this.summary.order_status
             }).then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 this.orderAction = false
                 this.summary.order_status = res.data.order_status
             })
@@ -287,14 +326,14 @@ export default {
                     message: this.message.trim(),
                     user: this.user
                 }).then((res) => {
-                    console.log(res.data);
-
+                    // console.log(res.data);
                 })
             }
         }
     },
     mounted() {
         this.getOrder()
+        this.getServices()
         this.getSummary()
     },
 }
