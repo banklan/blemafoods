@@ -17,6 +17,7 @@ use App\OrderSummary;
 use App\SpecialOrder;
 use App\ContactMessage;
 use Carbon\CarbonPeriod;
+use App\Mail\OrderCompleted;
 use App\Mail\WelcomeToBlema;
 use Illuminate\Http\Request;
 use App\Mail\SpecialOrderCost;
@@ -156,8 +157,17 @@ class AdminController extends Controller
 
         $order = OrderSummary::findOrFail($id);
         $order->update([
-            $order->order_status = $newStatus
+            $order->order_status = $newStatus,
+            $newStatus == 7 ? $order->pymt_status = true : $order->pymt_status = false
         ]);
+
+        $user = User::findOrFail($order->user_id);
+
+        //send mail
+        if($newStatus == 7){
+            Mail::to($user->email)->send(new OrderCompleted($user, $order));
+            Mail::to('blemadeliveries@gmail.com')->send(new OrderCompleted($user, $order));
+        }
 
         return response()->json($order, 200);
     }
